@@ -20,6 +20,7 @@ namespace sneik
         {
             // TODO: Add your initialization logic here
 
+
             base.Initialize();
         }
 
@@ -43,6 +44,7 @@ namespace sneik
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
 
             // TODO: Add your drawing code here
 

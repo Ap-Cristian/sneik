@@ -1,3 +1,3 @@
 ﻿
-using var game = new sneik.Game1();
+using var game = new sneik.sneik();
 game.Run();

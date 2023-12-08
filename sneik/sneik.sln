@@ -4,8 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sneik", "sneik\sneik.csproj", "{E67651C5-B751-4594-954B-F7C65A017B5D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2E95CEB5-3D0A-4D91-9449-E6548607FB7F} = {2E95CEB5-3D0A-4D91-9449-E6548607FB7F}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sneikTest", "sneikTest\sneikTest.csproj", "{A96B4CDC-DE44-4F16-BF33-06D68B0D77BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sneikTest", "sneikTest\sneikTest.csproj", "{A96B4CDC-DE44-4F16-BF33-06D68B0D77BD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2E95CEB5-3D0A-4D91-9449-E6548607FB7F} = {2E95CEB5-3D0A-4D91-9449-E6548607FB7F}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{2E95CEB5-3D0A-4D91-9449-E6548607FB7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +29,10 @@ Global
 		{A96B4CDC-DE44-4F16-BF33-06D68B0D77BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A96B4CDC-DE44-4F16-BF33-06D68B0D77BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A96B4CDC-DE44-4F16-BF33-06D68B0D77BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E95CEB5-3D0A-4D91-9449-E6548607FB7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E95CEB5-3D0A-4D91-9449-E6548607FB7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E95CEB5-3D0A-4D91-9449-E6548607FB7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E95CEB5-3D0A-4D91-9449-E6548607FB7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

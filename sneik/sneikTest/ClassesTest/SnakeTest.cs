@@ -1,5 +1,5 @@
-using sneik.Classes;
-using static sneik.Classes.Snake;
+
+using Logic.Models;
 namespace sneikTest.ClassesTest
 {
     [TestClass]
@@ -8,7 +8,7 @@ namespace sneikTest.ClassesTest
         [TestMethod]
         public void TestSnakeIncreaseSize()
         {
-            Snake snake = new Snake(0);
+            Snake snake = new Snake();
 
             snake.IncreaseSize(20);
 

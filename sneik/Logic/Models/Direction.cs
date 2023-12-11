@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Models
 {
-    enum Direction
+    public enum Direction
     {
         UP,
         DOWN,

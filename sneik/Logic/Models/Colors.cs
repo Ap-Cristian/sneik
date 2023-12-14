@@ -14,6 +14,7 @@ namespace Logic.Models
         YELLOW,
         PURPLE,
         CYAN,
-        PINK
+        PINK,
+        TRANSPARENT
     }
 }

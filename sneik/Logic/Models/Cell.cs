@@ -6,14 +6,20 @@ using System.Threading.Tasks;
 
 namespace Logic.Models
 {
-    internal class SnakeCell
+    internal class Cell
     {
+        private Guid _id;
+        //up-left corner of cell
         public Point Position { get; set; }
+
+        public Size Size { get; set; }
         public Color Color { get; set; }
-        public SnakeCell(Point position, Color color)
+        public Cell(Point position, Size size, Color color)
         {
             Position = position;
+            Size = size;
             Color = color;
+            _id = Guid.NewGuid();
         }
     }
 }

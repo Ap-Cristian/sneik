@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Attributes
 {
-    internal class Collider
+    public class Collider
     {
         public Point Position { get; set; }
         public Size Size { get; set; }

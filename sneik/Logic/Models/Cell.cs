@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Models
 {
-    internal class Cell
+    public class Cell
     {
         private Guid _id;
         //up-left corner of cell

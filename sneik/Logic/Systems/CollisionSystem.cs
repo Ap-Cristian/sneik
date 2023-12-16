@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace Logic.Systems
 {
-    internal class CollisionSystem
+    public class CollisionSystem
     {
         // ECS based collision system
         // check this out --> https://en.wikipedia.org/wiki/Entity_component_system
         // and this https://chat.openai.com/share/e2c763f7-942a-4670-ab5f-13020f021bc0
+        //
+        // If you wish to create a collidable, first derive it from Collidable and then add it to the _collidables list, the system "should" handle the rest on Update:)
 
         private List<Collidable> _collidables = null; 
         public CollisionSystem(List<Collidable> collidables)
@@ -19,15 +21,26 @@ namespace Logic.Systems
             _collidables = collidables;
         }
 
-        public void update()
+        public void AddCollidable(Collidable collidable)
+        {
+            _collidables.Add(collidable);
+        }
+
+        public void RemoveCollidable(Collidable collidable)
+        {
+            _collidables.Remove(collidable);
+        }
+
+        public void Update()
         {
             if(_collidables != null)
             {
-                for(int i = 0; i < _collidables.Count - 1; i++)
+                for(int i = 0; i < _collidables.Count; i++)
                 {
-                    for(int j = i + 1; j < _collidables.Count; j++)
+                    for(int j = 0; j < _collidables.Count && j != i; j++)
                     {
                         _collidables[i].CheckCollision(_collidables[j]);
+                        _collidables[j].CheckCollision(_collidables[i]);
                     }
                 }
             }

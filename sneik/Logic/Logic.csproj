@@ -39,6 +39,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\Collidable.cs" />
+    <Compile Include="Models\Collider.cs" />
     <Compile Include="Models\Colors.cs" />
     <Compile Include="Models\Difficulty.cs" />
     <Compile Include="Models\Direction.cs" />
@@ -47,7 +49,8 @@
     <Compile Include="Models\Point.cs" />
     <Compile Include="Models\Size.cs" />
     <Compile Include="Models\Snake.cs" />
-    <Compile Include="Models\SnakeCell.cs" />
+    <Compile Include="Models\Cell.cs" />
+    <Compile Include="Systems\CollisionSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

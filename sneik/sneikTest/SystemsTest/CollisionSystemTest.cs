@@ -48,7 +48,8 @@ namespace sneikTest.SystemsTest
             collidableList[1].CollisionDelegate += onColliderBCollided;
             collidableList[2].CollisionDelegate += onColliderCCollided;
 
-            CollisionSystem collisionSystem = new(collidableList);
+            CollisionSystem collisionSystem = CollisionSystem.Instance;
+            collisionSystem.SetCollidables(collidableList);
 
             collisionSystem.Update();
 
@@ -73,7 +74,8 @@ namespace sneikTest.SystemsTest
             collidableList[1].CollisionDelegate += onColliderBCollided;
             collidableList[2].CollisionDelegate += onColliderCCollided;
 
-            CollisionSystem collisionSystem = new(collidableList);
+            CollisionSystem collisionSystem = CollisionSystem.Instance;
+            collisionSystem.SetCollidables(collidableList);
 
             collisionSystem.Update();
 

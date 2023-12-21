@@ -44,9 +44,11 @@
     <Compile Include="Models\Colors.cs" />
     <Compile Include="Models\Difficulty.cs" />
     <Compile Include="Models\Direction.cs" />
+    <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GameBoad.cs" />
     <Compile Include="Models\Obstacle.cs" />
     <Compile Include="Models\Point.cs" />
+    <Compile Include="Models\Round.cs" />
     <Compile Include="Models\Size.cs" />
     <Compile Include="Models\Snake.cs" />
     <Compile Include="Models\Cell.cs" />

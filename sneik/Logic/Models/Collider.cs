@@ -1,12 +1,6 @@
 ﻿using Logic.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Logic.Attributes
+namespace Logic.Models
 {
     public class Collider
     {

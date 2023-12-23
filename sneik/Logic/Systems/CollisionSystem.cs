@@ -27,7 +27,10 @@ namespace Logic.Systems
         }
         public void AddCollidables(List<Collidable> collidables)
         {
-            _collidables.AddRange(collidables);
+            if (_collidables != null)
+                _collidables.AddRange(collidables);
+            else
+                _collidables = collidables;
         }
         public void SetCollidables(List<Collidable> collidables)
         {
@@ -35,12 +38,16 @@ namespace Logic.Systems
         }
         public void AddCollidable(Collidable collidable)
         {
-            _collidables.Add(collidable);
+            if(_collidables != null)
+                _collidables.Add(collidable);
+            else
+                _collidables = new List<Collidable> { collidable};
         }
 
         public void RemoveCollidable(Collidable collidable)
         {
-            _collidables.Remove(collidable);
+            if(_collidables != null)
+                _collidables.Remove(collidable);
         }
 
         public void Update()

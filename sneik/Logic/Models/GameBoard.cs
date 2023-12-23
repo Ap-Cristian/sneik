@@ -15,7 +15,7 @@ namespace Logic.Models
     };
     public class GameBoard
     {
-        private Size _cellSize = new Size(10, 10);
+        private Size _cellSize = new Size(2, 2); //changing this might break map generation, usually keeping a good ratio between board size, obstacle size and obstacle coefficient is a good idea
         private int _cellPadding = 2;
         private Size _size { get; set; } // cells count 
         private int _obstacleCount = 0;

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Logic.Models
 {
-    enum ObstacleCoef
+    public enum ObstacleCoef
     {
         EASY = 60,
         MEDIUM = 70,
@@ -13,14 +13,14 @@ namespace Logic.Models
         VERY_HARD = 90,
         NIGHTMARE = 100,
     };
-    internal class GameBoard
+    public class GameBoard
     {
         private Size _cellSize = new Size(10, 10);
         private int _cellPadding = 2;
         private Size _size { get; set; } // cells count 
         private int _obstacleCount = 0;
         public Cell[,] BoardCells { get; set; }
-        public Obstacle[] Obstacles { get; set; }
+        public List<Obstacle> Obstacles { get; set; }
 
         private Size[] _gameboardSizes = {
             new Size(40, 40),   // easy
@@ -34,43 +34,43 @@ namespace Logic.Models
         private void SpawnObstacles()
         {
             var rand = new Random();
-            Obstacles = new Obstacle[_obstacleCount];
+            Obstacles = new List<Obstacle>();
             for (int i = 0; i < _obstacleCount; i++)
             {
                 Point currentPos = new Point(rand.Next(0, _size.Width), rand.Next(0, _size.Height));
                 Obstacle currentObstacle = new Obstacle(currentPos, _cellSize);
                 bool collidingWithExisting = false;
 
-                for (int j = 0; j < Obstacles.Length; j++)
+                for (int j = 0; j < Obstacles.Count; j++)
                 {
                     if (currentObstacle.CheckCollision(Obstacles[j]))
                     {
                         collidingWithExisting = true;
-                        j = Obstacles.Length;
+                        j = Obstacles.Count;
                     }
                 }
                 while (collidingWithExisting)
                 {
                     currentPos = new Point(rand.Next(0, _size.Width), rand.Next(0, _size.Height));
-                    currentObstacle.Cell.Position = currentPos;
+                    currentObstacle = new Obstacle(currentPos, _cellSize);
                     collidingWithExisting = false;
-                    for (int j = 0; j < Obstacles.Length; j++)
+                    for (int j = 0; j < Obstacles.Count; j++)
                     {
                         if (currentObstacle.CheckCollision(Obstacles[j]))
                         {
                             collidingWithExisting = true;
-                            j = Obstacles.Length;
+                            j = Obstacles.Count;
                         }
                     }
                 }
-                Obstacles[i] = currentObstacle;
+                Obstacles.Add(currentObstacle);
             }
-            List<Collidable> tempColl = new List<Collidable>();
-            foreach (var collidable in Obstacles)
+            List<Collidable> tempColliders = new List<Collidable>();
+            foreach (Collidable collidable in Obstacles)
             {
-                tempColl.Add((Collidable)collidable);
+                tempColliders.Add(collidable);
             }
-            _collisionSystem.AddCollidables(tempColl);
+            _collisionSystem.AddCollidables(tempColliders);
         }
         public GameBoard(Difficulty difficulty)
         {
@@ -108,9 +108,9 @@ namespace Logic.Models
                 for (int y = 0; y < _size.Height; y++)
                 {
                     this.BoardCells[x, y] = new Cell(currentPos, _cellSize, Color.RICH_BLACK);
-                    currentPos.X += _cellSize.Width + _cellPadding;
+                    currentPos.Y += _cellSize.Height + _cellPadding;
                 }
-                currentPos.Y += _cellSize.Height + _cellPadding;
+                currentPos.X += _cellSize.Width + _cellPadding;
             }
             SpawnObstacles();
         }

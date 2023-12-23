@@ -20,14 +20,19 @@ namespace Logic.Attributes
                 Point FirstColRD = new Point(FirstColLU.X + Collider.Size.Width, FirstColLU.Y + Collider.Size.Height); //Rigth down corner
                 
                 Point SecondColLU = collidable.Collider.Position;
-                Point SecondColRD = new Point(SecondColLU.X + Collider.Size.Width, SecondColLU.Y + Collider.Size.Height);
+                Point SecondColRD = new Point(SecondColLU.X + collidable.Collider.Size.Width, SecondColLU.Y + collidable.Collider.Size.Height);
+
+                if((SecondColLU.X > FirstColRD.X || SecondColRD.X < FirstColLU.X) || (SecondColLU.Y > FirstColRD.Y || SecondColRD.Y < FirstColLU.Y))
+                {
+                    return false;
+                }
 
                 Point minLeftUpCorner = new Point(Math.Max(FirstColLU.X, SecondColLU.X), Math.Min(FirstColLU.Y, SecondColLU.Y));
                 Point maxRightDownCorner = new Point(Math.Min(FirstColRD.X, SecondColRD.X), Math.Max(FirstColRD.Y, SecondColRD.Y));
 
                 int overlappingArea = (maxRightDownCorner.X - minLeftUpCorner.X) * (maxRightDownCorner.Y - minLeftUpCorner.Y);
 
-                if (overlappingArea > 0)
+                if (overlappingArea != 0)
                 {
                     //raise collision event here
                     CollisionDelegate?.Invoke(this, EventArgs.Empty);
@@ -36,7 +41,7 @@ namespace Logic.Attributes
                 return false;
 
             }
-            throw new NotImplementedException();
+            throw new Exception("[ERR!] Collider not instanciated!");
         }
     }
 }

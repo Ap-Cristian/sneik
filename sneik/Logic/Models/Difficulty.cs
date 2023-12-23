@@ -1,6 +1,6 @@
 ﻿namespace Logic.Models
 {
-    enum Difficulty
+    public enum Difficulty
     {
         EASY,
         MEDIUM,

@@ -13,7 +13,7 @@ namespace Logic.Models
 
         private int _size;
         private int _movementSpeed;
-        private ObservableCollection<Point> _snakeBodyParts;
+        private List<Point> _snakeBodyParts;
         private Point _headPos;
         private Direction _headingDirection = Direction.UP;
 
@@ -22,7 +22,7 @@ namespace Logic.Models
             this._size = size;
             this._movementSpeed = movementSpeed;
             int bodyInitialSize = 3;
-            this._snakeBodyParts = new ObservableCollection<Point>();
+            this._snakeBodyParts = new List<Point>();
             for (int i = 0; i < bodyInitialSize; i++)
             {
                 this._snakeBodyParts.Add(new Point(pos.X, pos.Y + i));

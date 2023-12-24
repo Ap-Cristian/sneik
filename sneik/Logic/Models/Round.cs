@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Logic.Models
 {
-    internal class Round
+    sealed class Round
     {
         private static Round instance;
-
-        private Round() { }
+        private GameBoard _board;
+        private Difficulty _difficulty = Difficulty.NIGHTMARE;
+        private Round() {
+            _board = new GameBoard(_difficulty);
+        }
 
         public static Round Instance
         {
@@ -23,5 +27,9 @@ namespace Logic.Models
                 return instance;
             }
         }   
+        public void Start()
+        {
+
+        }
     }
 }

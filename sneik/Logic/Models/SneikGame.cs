@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace Logic.Models
 {
-    public class Game
+    public class SneikGame
     {
-        private static Game instance;
+        private static SneikGame instance;
 
-        private Game() { }
+        private SneikGame() { }
 
-        public static Game Instance
+        public static SneikGame Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new Game();
+                    instance = new SneikGame();
                 }
                 return instance;
             }

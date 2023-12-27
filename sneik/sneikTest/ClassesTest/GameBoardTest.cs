@@ -15,7 +15,7 @@ namespace sneikTest.ClassesTest
         {
             Difficulty difficulty = Difficulty.EASY;
             GameBoard gameBoard = new GameBoard(difficulty);
-            Assert.AreEqual((int)ObstacleCoef.EASY,gameBoard.Obstacles.Count);
+            Assert.AreEqual((int)ObstacleCoef.EASY, gameBoard.Obstacles.Count);
         }
         [TestMethod]
         public void CheckGameboardMedium()

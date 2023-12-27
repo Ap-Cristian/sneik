@@ -1,4 +1,5 @@
 ﻿using Logic.Attributes;
+using Logic.Models;
 using System;
 using System.Collections.Generic;
 
@@ -13,17 +14,18 @@ namespace Logic.Systems
         // If you wish to create a collidable, first derive it from Collidable and then add it to the _collidables list, the system "should" handle the rest on update:)
 
         private CollisionSystem() { }
-        private List<Collidable> _collidables = null; 
+        private List<Collidable> _collidables = null;
         private static CollisionSystem _instance;
-        public static CollisionSystem Instance 
-        { 
-            get 
-            { if (_instance == null) 
-                { 
-                    return new CollisionSystem(); 
+        public static CollisionSystem Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new CollisionSystem();
                 }
-            return _instance;
-            } 
+                return _instance;
+            }
         }
         public void AddCollidables(List<Collidable> collidables)
         {
@@ -38,25 +40,42 @@ namespace Logic.Systems
         }
         public void AddCollidable(Collidable collidable)
         {
-            if(_collidables != null)
+            if (_collidables != null)
                 _collidables.Add(collidable);
             else
-                _collidables = new List<Collidable> { collidable};
+                _collidables = new List<Collidable> { collidable };
         }
 
         public void RemoveCollidable(Collidable collidable)
         {
-            if(_collidables != null)
+            if (_collidables != null)
                 _collidables.Remove(collidable);
+        }
+        public void AddObstacles(Obstacle[,] obstacles)
+        {
+            if (_collidables == null)
+            {
+                _collidables = new List<Collidable>();
+            }
+            for (int i = 0; i < obstacles.GetLength(0); i++)
+            {
+                for (int j = 0; j < obstacles.GetLength(1); j++)
+                {
+                    if (obstacles[i, j] != null)
+                    {
+                        _collidables.Add(obstacles[i, j]);
+                    }
+                }
+            }
         }
 
         public void Update()
         {
-            if(_collidables != null)
+            if (_collidables != null)
             {
-                for(int i = 0; i < _collidables.Count; i++)
+                for (int i = 0; i < _collidables.Count; i++)
                 {
-                    for(int j = 0; j < _collidables.Count && j != i; j++)
+                    for (int j = 0; j < _collidables.Count && j != i; j++)
                     {
                         _collidables[i].CheckCollision(_collidables[j]);
                         _collidables[j].CheckCollision(_collidables[i]);

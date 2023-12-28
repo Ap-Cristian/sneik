@@ -73,11 +73,9 @@ namespace Logic.Models
             {
                 case Direction.UP:
                     this._headPos.Y -= 1;
-                  
                     break;
                 case Direction.DOWN:
                     this._headPos.Y += 1;
-                   
                     break;
                 case Direction.LEFT:
                     this._headPos.X -= 1;

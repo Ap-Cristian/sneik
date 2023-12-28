@@ -4,6 +4,13 @@
     {
         public int X { get; set; }
         public int Y { get; set; }
+
+        public Point(Point p)
+        {
+            X = p.X;
+            Y = p.Y;
+        }
+
         public Point(int x, int y)
         {
             X = x;
@@ -27,5 +34,6 @@
             this.Y = this.Y + size.Height;
             return this;
         }
+        
     }
 }

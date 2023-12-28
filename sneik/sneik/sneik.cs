@@ -9,18 +9,23 @@ namespace sneik
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
+        private SneikRenderer _sneikRenderer;
+        private SneikGame _sneikGame;
         public sneik()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            _sneikGame = SneikGame.Instance;
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            //_graphics.IsFullScreen = true;
+            _graphics.PreferredBackBufferWidth = 1600;
+            _graphics.PreferredBackBufferHeight = 800;
+            _graphics.ApplyChanges();
 
             base.Initialize();
         }
@@ -28,6 +33,7 @@ namespace sneik
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _sneikRenderer = new SneikRenderer(_spriteBatch, GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
         }
@@ -38,17 +44,15 @@ namespace sneik
                 Exit();
 
             // TODO: Add your update logic here
-
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CornflowerBlue);
-
+            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
+            _sneikRenderer.draw();
 
             // TODO: Add your drawing code here
-
             base.Draw(gameTime);
         }
     }

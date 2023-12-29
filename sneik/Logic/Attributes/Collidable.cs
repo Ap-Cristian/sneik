@@ -6,23 +6,24 @@ namespace Logic.Attributes
     public class Collidable
     {
         public Collider Collider { get; set; }
-        public event EventHandler CollisionDelegate;
+        public event EventHandler CollisionHandler;
         private const Color _wireframeDebugColor = Color.YELLOW;
-        public Collidable(Cell parrentCell) { 
+        public Collidable(Cell parrentCell)
+        {
             this.Collider = new Collider(parrentCell.Position, parrentCell.Size);
         }
 
         public bool CheckCollision(Collidable collidable)
         {
-            if (Collider != null)
+            if (Collider != null && this != null)
             {
                 Point FirstColLU = Collider.Position; //Left up corner
                 Point FirstColRD = new Point(FirstColLU.X + Collider.Size.Width, FirstColLU.Y + Collider.Size.Height); //Rigth down corner
-                
+
                 Point SecondColLU = collidable.Collider.Position;
                 Point SecondColRD = new Point(SecondColLU.X + collidable.Collider.Size.Width, SecondColLU.Y + collidable.Collider.Size.Height);
 
-                if((SecondColLU.X > FirstColRD.X || SecondColRD.X < FirstColLU.X) || (SecondColLU.Y > FirstColRD.Y || SecondColRD.Y < FirstColLU.Y))
+                if ((SecondColLU.X > FirstColRD.X || SecondColRD.X < FirstColLU.X) || (SecondColLU.Y > FirstColRD.Y || SecondColRD.Y < FirstColLU.Y))
                 {
                     return false;
                 }
@@ -35,7 +36,9 @@ namespace Logic.Attributes
                 if (overlappingArea != 0)
                 {
                     //raise collision event here
-                    CollisionDelegate?.Invoke(this, EventArgs.Empty);
+                    //pass collidable object type as event args
+                    //create CollidedEventArgs 
+                    CollisionHandler?.Invoke(this, EventArgs.Empty);
                     return true;
                 }
                 return false;

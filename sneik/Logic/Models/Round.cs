@@ -36,7 +36,7 @@ namespace Logic.Models
             Snake = new Snake(_snakeInitialSize, Board);
 
             //this should not happen here
-            Snake.Head.CollisionHandler += onSnakeCollision;
+            Snake.HeadCollidable.CollisionHandler += onSnakeCollision;
         }
 
         public void Update()

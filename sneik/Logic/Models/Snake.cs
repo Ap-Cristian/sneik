@@ -15,7 +15,7 @@ namespace Logic.Models
 
         private GameBoard _board;
         private List<Point> _snakeBodyPartsBoardIdx;
-        public List<Collidable> SnakeBodyPartsScreenSpace { get; set; }
+        public List<Cell> SnakeBodyPartsScreenSpace { get; set; }
 
         private Point _headPosBoardIdx;
         private readonly Point _headPosScreenSpace;
@@ -24,7 +24,7 @@ namespace Logic.Models
         private Direction _headingDirection = Direction.DOWN;
         private CollisionSystem _collisionSystem;
 
-        public Collidable Head { get; set; }
+        public Collidable HeadCollidable { get; set; }
 
         public Snake(int size, GameBoard gameBoard, int movementSpeed = SNAKE_SPEED_DEFAULT)
         {
@@ -35,7 +35,7 @@ namespace Logic.Models
             this._board = gameBoard;
 
             this._snakeBodyPartsBoardIdx = new List<Point>();
-            this.SnakeBodyPartsScreenSpace = new List<Collidable>();
+            this.SnakeBodyPartsScreenSpace = new List<Cell>();
 
             for (int i = 0; i < _currentSize; i++)
             {
@@ -43,14 +43,15 @@ namespace Logic.Models
                 Point cellCoordsScreenSpace = new Point(this._board.BoardCells[cellCoordsBoardIdx.X, cellCoordsBoardIdx.Y].Position);
 
                 this._snakeBodyPartsBoardIdx.Add(new Point(cellCoordsBoardIdx));
-                this.SnakeBodyPartsScreenSpace.Add(new Collidable(new Cell(cellCoordsScreenSpace, _snakeCellSize, Color.RED)));
+                this.SnakeBodyPartsScreenSpace.Add(new Cell(cellCoordsScreenSpace, _snakeCellSize, Color.RED));
             }
             this._headPosBoardIdx = this._snakeBodyPartsBoardIdx.First();
-            this._headPosScreenSpace = this.SnakeBodyPartsScreenSpace.First().Collider.Position;
+            this._headPosScreenSpace = this.SnakeBodyPartsScreenSpace.First().Position;
             this._collisionSystem = CollisionSystem.Instance;
 
-            this._collisionSystem.AddCollidable(this.SnakeBodyPartsScreenSpace.First());
-            this.Head = this.SnakeBodyPartsScreenSpace.First();
+            this.HeadCollidable = new Collidable(this.SnakeBodyPartsScreenSpace.First());
+            this._collisionSystem.AddCollidable(this.HeadCollidable);
+
         }
         public Snake()
         {
@@ -140,9 +141,10 @@ namespace Logic.Models
             int idx = 0;
             foreach (var boardIdx in _snakeBodyPartsBoardIdx)
             {
-                this.SnakeBodyPartsScreenSpace[idx].Collider.Position = new Point(this._board.BoardCells[boardIdx.X, boardIdx.Y].Position);
+                this.SnakeBodyPartsScreenSpace[idx].Position = new Point(this._board.BoardCells[boardIdx.X, boardIdx.Y].Position);
                 idx++;
             }
+            this.HeadCollidable.Collider.Position = new Point(SnakeBodyPartsScreenSpace.First().Position);
         }
 
         public void Move()

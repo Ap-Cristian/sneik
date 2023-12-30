@@ -1,6 +1,7 @@
 ﻿using Logic.Systems;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -10,6 +11,9 @@ namespace Logic.Models
 {
     sealed public class Round
     {
+        //this will have to be set from snakeGame once the user selects a difficulty
+        private Difficulty _difficulty = Difficulty.EASY;
+
         private static Round instance;
         private const int _snakeInitialSize = 3;
         private Point _gameBoardCenterPoint;
@@ -17,13 +21,22 @@ namespace Logic.Models
         public Snake Snake { get; set; }
 
         private CollisionSystem _collisionSystem;
-        private Difficulty _difficulty = Difficulty.NIGHTMARE;
+
+        private void onSnakeCollision(Object sender, EventArgs args)
+        {
+            Debug.WriteLine("Snake collided!");
+            //check if collided with obstacle, if true end round
+        }
+
         private Round()
         {
             _collisionSystem = CollisionSystem.Instance;
             Board = new GameBoard(_difficulty);
             _gameBoardCenterPoint = new Point(Board.Size.Width / 2, Board.Size.Height / 2);
-            Snake = new Snake(_snakeInitialSize, _gameBoardCenterPoint);
+            Snake = new Snake(_snakeInitialSize, Board);
+
+            //this should not happen here
+            Snake.HeadCollidable.CollisionHandler += onSnakeCollision;
         }
 
         public void Update()

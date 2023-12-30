@@ -86,18 +86,25 @@ namespace sneik
 
             foreach (var boardCell in _sneikGame.round.Board.BoardCells)
             {
-                _spriteBatch.Draw(_gameBoardCellTexture, Tools.PointToVector2(boardCell.Position), Tools.ModelsColorToFrameworkColor(boardCell.Color));
+                _spriteBatch.Draw(_gameBoardCellTexture, Tools.PointToVector2(boardCell.Position), Tools.ModelsColorToFrameworkColor(boardCell.Color)); //draw board
             }
 
             foreach (var boardObstacle in _sneikGame.round.Board.BoardObstacles)
             {
                 if (boardObstacle != null)
                 {
-                    _spriteBatch.Draw(_gameBoardObstacleTexture, Tools.PointToVector2(boardObstacle.Cell.Position), Tools.ModelsColorToFrameworkColor(boardObstacle.Cell.Color)); //this is bad:)
+                    _spriteBatch.Draw(_gameBoardObstacleTexture, Tools.PointToVector2(boardObstacle.Cell.Position), Tools.ModelsColorToFrameworkColor(boardObstacle.Cell.Color)); //draw obstacles
                 }
             }
 
             //this is where the snek should be drawn
+            foreach (var SnakeCell in _sneikGame.round.Snake.SnakeBodyPartsScreenSpace)
+            {
+                if (SnakeCell != null)
+                {
+                    _spriteBatch.Draw(_gameBoardObstacleTexture, Tools.PointToVector2(SnakeCell.Position), Tools.ModelsColorToFrameworkColor(SnakeCell.Color)); //draw snake
+                }
+            }
             _spriteBatch.End();
         }
     }

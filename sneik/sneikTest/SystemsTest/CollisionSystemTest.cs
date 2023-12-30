@@ -43,9 +43,9 @@ namespace sneikTest.SystemsTest
             collidableList.Add(obstacleB);
             collidableList.Add(obstacleC);
 
-            collidableList[0].CollisionDelegate += onColliderACollided;
-            collidableList[1].CollisionDelegate += onColliderBCollided;
-            collidableList[2].CollisionDelegate += onColliderCCollided;
+            collidableList[0].CollisionHandler += onColliderACollided;
+            collidableList[1].CollisionHandler += onColliderBCollided;
+            collidableList[2].CollisionHandler += onColliderCCollided;
 
             CollisionSystem collisionSystem = CollisionSystem.Instance;
             collisionSystem.SetCollidables(collidableList);
@@ -73,9 +73,9 @@ namespace sneikTest.SystemsTest
             collidableList.Add(obstacleB);
             collidableList.Add(obstacleC);
 
-            collidableList[0].CollisionDelegate += onColliderACollided;
-            collidableList[1].CollisionDelegate += onColliderBCollided;
-            collidableList[2].CollisionDelegate += onColliderCCollided;
+            collidableList[0].CollisionHandler += onColliderACollided;
+            collidableList[1].CollisionHandler += onColliderBCollided;
+            collidableList[2].CollisionHandler += onColliderCCollided;
 
             CollisionSystem collisionSystem = CollisionSystem.Instance;
             collisionSystem.SetCollidables(collidableList);
@@ -102,9 +102,9 @@ namespace sneikTest.SystemsTest
             collidableList.Add(obstacleB);
             collidableList.Add(obstacleC);
 
-            collidableList[0].CollisionDelegate += onColliderACollided;
-            collidableList[1].CollisionDelegate += onColliderBCollided;
-            collidableList[2].CollisionDelegate += onColliderCCollided;
+            collidableList[0].CollisionHandler += onColliderACollided;
+            collidableList[1].CollisionHandler += onColliderBCollided;
+            collidableList[2].CollisionHandler += onColliderCCollided;
 
             CollisionSystem collisionSystem = CollisionSystem.Instance;
             collisionSystem.SetCollidables(collidableList);
@@ -131,9 +131,9 @@ namespace sneikTest.SystemsTest
             collidableList.Add(obstacleB);
             collidableList.Add(obstacleC);
 
-            collidableList[0].CollisionDelegate += onColliderACollided;
-            collidableList[1].CollisionDelegate += onColliderBCollided;
-            collidableList[2].CollisionDelegate += onColliderCCollided;
+            collidableList[0].CollisionHandler += onColliderACollided;
+            collidableList[1].CollisionHandler += onColliderBCollided;
+            collidableList[2].CollisionHandler += onColliderCCollided;
 
             CollisionSystem collisionSystem = CollisionSystem.Instance;
             collisionSystem.SetCollidables(collidableList);
@@ -160,9 +160,9 @@ namespace sneikTest.SystemsTest
             collidableList.Add(obstacleB);
             collidableList.Add(obstacleC);
 
-            collidableList[0].CollisionDelegate += onColliderACollided;
-            collidableList[1].CollisionDelegate += onColliderBCollided;
-            collidableList[2].CollisionDelegate += onColliderCCollided;
+            collidableList[0].CollisionHandler += onColliderACollided;
+            collidableList[1].CollisionHandler += onColliderBCollided;
+            collidableList[2].CollisionHandler += onColliderCCollided;
 
             CollisionSystem collisionSystem = CollisionSystem.Instance;
             collisionSystem.SetCollidables(collidableList);
@@ -189,9 +189,9 @@ namespace sneikTest.SystemsTest
             collidableList.Add(obstacleB);
             collidableList.Add(obstacleC);
 
-            collidableList[0].CollisionDelegate += onColliderACollided;
-            collidableList[1].CollisionDelegate += onColliderBCollided;
-            collidableList[2].CollisionDelegate += onColliderCCollided;
+            collidableList[0].CollisionHandler += onColliderACollided;
+            collidableList[1].CollisionHandler += onColliderBCollided;
+            collidableList[2].CollisionHandler += onColliderCCollided;
 
             CollisionSystem collisionSystem = CollisionSystem.Instance;
             collisionSystem.SetCollidables(collidableList);

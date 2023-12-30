@@ -5,6 +5,8 @@ namespace sneikTest.ClassesTest
     [TestClass]
     public class SnakeTest
     {
+        GameBoard _testGameBoard = new GameBoard(Difficulty.EASY);
+
         [TestMethod]
         public void TestSnakeIncreaseSize()
         {
@@ -18,26 +20,26 @@ namespace sneikTest.ClassesTest
         [TestMethod]
         public void TestSnakeMove()
         {
-            Snake snake = new Snake(3, new Point(0, 0));
+            Snake snake = new Snake(3, _testGameBoard);
 
             snake.Move();
             switch (snake.GetDirection())
             {
                 case Direction.UP:
-                    Assert.AreEqual(0, snake.GetHeadPos().X);
-                    Assert.AreEqual(-1, snake.GetHeadPos().Y);
+                    Assert.AreEqual(0, snake.GetHeadPosBoardSpace().X);
+                    Assert.AreEqual(-1, snake.GetHeadPosBoardSpace().Y);
                     break;
                 case Direction.DOWN:
-                    Assert.AreEqual(0, snake.GetHeadPos().X);
-                    Assert.AreEqual(1, snake.GetHeadPos().Y);
+                    Assert.AreEqual(0, snake.GetHeadPosBoardSpace().X);
+                    Assert.AreEqual(4, snake.GetHeadPosBoardSpace().Y); //workaround:)
                     break;
                 case Direction.LEFT:
-                    Assert.AreEqual(-1, snake.GetHeadPos().X);
-                    Assert.AreEqual(0, snake.GetHeadPos().Y);
+                    Assert.AreEqual(-1, snake.GetHeadPosBoardSpace().X);
+                    Assert.AreEqual(0, snake.GetHeadPosBoardSpace().Y);
                     break;
                 case Direction.RIGHT:
-                    Assert.AreEqual(1, snake.GetHeadPos().X);
-                    Assert.AreEqual(0, snake.GetHeadPos().Y);
+                    Assert.AreEqual(1, snake.GetHeadPosBoardSpace().X);
+                    Assert.AreEqual(0, snake.GetHeadPosBoardSpace().Y);
                     break;
             }
         }

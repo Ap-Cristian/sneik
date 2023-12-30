@@ -22,9 +22,9 @@ namespace sneik
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            //_graphics.IsFullScreen = true;
-            _graphics.PreferredBackBufferWidth = 1600;
-            _graphics.PreferredBackBufferHeight = 800;
+            _graphics.IsFullScreen = false;
+            _graphics.PreferredBackBufferWidth = 800;
+            _graphics.PreferredBackBufferHeight = 600;
             _graphics.ApplyChanges();
 
             base.Initialize();

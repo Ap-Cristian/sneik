@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Logic.Attributes;
+using Logic.Systems;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logic.Models
 {
@@ -11,23 +9,48 @@ namespace Logic.Models
     {
         const int SNAKE_SPEED_DEFAULT = 2;
 
-        private int _size;
+        private int _currentSize;
+        private int _initialSize;
         private int _movementSpeed;
-        private List<Point> _snakeBodyParts;
-        private Point _headPos;
-        private Direction _headingDirection = Direction.UP;
 
-        public Snake(int size, Point pos, int movementSpeed = SNAKE_SPEED_DEFAULT)
+        private GameBoard _board;
+        private List<Point> _snakeBodyPartsBoardIdx;
+        public List<Cell> SnakeBodyPartsScreenSpace { get; set; }
+
+        private Point _headPosBoardIdx;
+        private readonly Point _headPosScreenSpace;
+
+        private Size _snakeCellSize = new Size(2, 2);
+        private Direction _headingDirection = Direction.DOWN;
+        private CollisionSystem _collisionSystem;
+
+        public Collidable HeadCollidable { get; set; }
+
+        public Snake(int size, GameBoard gameBoard, int movementSpeed = SNAKE_SPEED_DEFAULT)
         {
-            this._size = size;
+            this._currentSize = size;
+            this._initialSize = size;
+
             this._movementSpeed = movementSpeed;
-            int bodyInitialSize = 3;
-            this._snakeBodyParts = new List<Point>();
-            for (int i = 0; i < bodyInitialSize; i++)
+            this._board = gameBoard;
+
+            this._snakeBodyPartsBoardIdx = new List<Point>();
+            this.SnakeBodyPartsScreenSpace = new List<Cell>();
+
+            for (int i = 0; i < _currentSize; i++)
             {
-                this._snakeBodyParts.Add(new Point(pos.X, pos.Y + i));
+                Point cellCoordsBoardIdx = new Point(0, _initialSize - i);
+                Point cellCoordsScreenSpace = new Point(this._board.BoardCells[cellCoordsBoardIdx.X, cellCoordsBoardIdx.Y].Position);
+
+                this._snakeBodyPartsBoardIdx.Add(new Point(cellCoordsBoardIdx));
+                this.SnakeBodyPartsScreenSpace.Add(new Cell(cellCoordsScreenSpace, _snakeCellSize, Color.RED));
             }
-            this._headPos = this._snakeBodyParts[0];
+            this._headPosBoardIdx = this._snakeBodyPartsBoardIdx.First();
+            this._headPosScreenSpace = this.SnakeBodyPartsScreenSpace.First().Position;
+            this._collisionSystem = CollisionSystem.Instance;
+
+            this.HeadCollidable = new Collidable(this.SnakeBodyPartsScreenSpace.First());
+            this._collisionSystem.AddCollidable(this.HeadCollidable);
 
         }
         public Snake()
@@ -37,15 +60,17 @@ namespace Logic.Models
 
         public int GetSize()
         {
-            return this._size;
+            return this._currentSize;
+
         }
         public Direction GetDirection()
         {
             return this._headingDirection;
         }
-        public Point GetHeadPos()
+
+        public Point GetHeadPosBoardSpace()
         {
-            return this._headPos;
+            return _headPosBoardIdx;
         }
 
         public void SetDirection(Direction direction)
@@ -55,35 +80,77 @@ namespace Logic.Models
 
         public void SetSize(int size)
         {
-            this._size = size;
+            this._currentSize = size;
         }
 
         public void IncreaseSize(int size)
         {
-            this._size += size;
+            this._currentSize += size;
         }
 
-        public void Move()
+        private void MoveBoardIdx()
         {
-            Point pos = new Point(this._headPos.X, this._headPos.Y);
-            this._snakeBodyParts.Insert(1, pos);
-            this._snakeBodyParts.RemoveAt(this._snakeBodyParts.Count - 1);
+            Point oldCellPos = new Point(this._headPosBoardIdx);
+            Point auxCellPos = new Point(0, 0);
 
             switch (this._headingDirection)
             {
                 case Direction.UP:
-                    this._headPos.Y -= 1;
+                    if (this._headPosBoardIdx.Y - 1 >= 0)
+                        this._headPosBoardIdx.Y -= 1;
+                    else
+                    {
+                        this._headPosBoardIdx.Y = this._board.Size.Height - 1;
+                    }
                     break;
                 case Direction.DOWN:
-                    this._headPos.Y += 1;
+                    if (this._headPosBoardIdx.Y + 1 < this._board.Size.Height)
+                        this._headPosBoardIdx.Y += 1;
+                    else
+                    {
+                        this._headPosBoardIdx.Y = 0;
+                    }
                     break;
                 case Direction.LEFT:
-                    this._headPos.X -= 1;
+                    if (this._headPosBoardIdx.X - 1 >= 0)
+                        this._headPosBoardIdx.X -= 1;
+                    else
+                    {
+                        this._headPosBoardIdx.X = this._board.Size.Width - 1;
+                    }
                     break;
                 case Direction.RIGHT:
-                    this._headPos.X += 1;
+                    if (this._headPosBoardIdx.X + 1 < this._board.Size.Width)
+                        this._headPosBoardIdx.X += 1;
+                    else
+                    {
+                        this._headPosBoardIdx.X = 0;
+                    }
                     break;
             }
+            for (int i = 1; i < _snakeBodyPartsBoardIdx.Count; i++)
+            {
+                auxCellPos = new Point(this._snakeBodyPartsBoardIdx[i]);
+                _snakeBodyPartsBoardIdx[i] = new Point(oldCellPos);
+                oldCellPos = new Point(auxCellPos);
+            }
+        }
+
+        private void MoveScreenSpace()
+        {
+            int idx = 0;
+            foreach (var boardIdx in _snakeBodyPartsBoardIdx)
+            {
+                this.SnakeBodyPartsScreenSpace[idx].Position = new Point(this._board.BoardCells[boardIdx.X, boardIdx.Y].Position);
+                idx++;
+            }
+            this.HeadCollidable.Collider.Position = new Point(SnakeBodyPartsScreenSpace.First().Position);
+        }
+
+        public void Move()
+        {
+            MoveBoardIdx();
+            MoveScreenSpace();
         }
 
     }

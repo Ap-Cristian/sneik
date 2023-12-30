@@ -20,7 +20,7 @@ namespace Logic.Models
             {
                 this.round.Update();
                 this.DrawUpdateDelegate?.Invoke(this, EventArgs.Empty);
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
             }
             _gameThread.Join();
         }

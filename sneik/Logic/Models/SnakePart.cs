@@ -1,21 +1,35 @@
 ﻿using Logic.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Logic.Models
 {
-    public class Obstacle : ICollidable
+    public class SnakePart : ICollidable
     {
+
+
         public Cell Cell { get; set; }
-        public Obstacle(Point position, Size size, Color color = Color.TEA_GREEN) 
+        public event EventHandler CollisionHandler;
+
+        public SnakePart(Point position, Size size, Color color = Color.TEA_GREEN)
         {
             Cell = new Cell(position, size, color);
+            
+        }
+        public SnakePart(SnakePart snakePart)
+        {
+            Cell = snakePart.Cell;
+            CollisionHandler = snakePart.CollisionHandler;
+
         }
 
-        public event EventHandler CollisionHandler;
+       
 
         public bool CheckCollision(ICollidable collidable)
         {
-
             Point FirstColLU = Cell.Position; //Left up corner
             Point FirstColRD = new Point(FirstColLU.X + Cell.Size.Width, FirstColLU.Y + Cell.Size.Height); //Rigth down corner
 
@@ -43,4 +57,5 @@ namespace Logic.Models
             return false;
         }
     }
+    
 }

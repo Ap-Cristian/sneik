@@ -1,4 +1,5 @@
-﻿using Logic.Attributes;
+﻿
+using Logic.Interfaces;
 using Logic.Models;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Logic.Systems
         // If you wish to create a collidable, first derive it from Collidable and then add it to the _collidables list, the system "should" handle the rest on update:)
 
         private CollisionSystem() { }
-        private List<Collidable> _collidables = null;
+        private List<ICollidable> _collidables = null;
         private static CollisionSystem _instance;
         public static CollisionSystem Instance
         {
@@ -27,35 +28,35 @@ namespace Logic.Systems
                 return _instance;
             }
         }
-        public void AddCollidables(List<Collidable> collidables)
+        public void AddCollidables(List<ICollidable> collidables)
         {
             if (_collidables != null)
                 _collidables.AddRange(collidables);
             else
                 _collidables = collidables;
         }
-        public void SetCollidables(List<Collidable> collidables)
+        public void SetCollidables(List<ICollidable> collidables)
         {
             _collidables = collidables;
         }
-        public void AddCollidable(Collidable collidable)
+        public void AddCollidable(ICollidable collidable)
         {
             if (_collidables != null)
                 _collidables.Add(collidable);
             else
-                _collidables = new List<Collidable> { collidable };
+                _collidables = new List<ICollidable> { collidable };
         }
 
-        public void RemoveCollidable(Collidable collidable)
+        public void RemoveCollidable(ICollidable collidable)
         {
             if (_collidables != null)
                 _collidables.Remove(collidable);
         }
-        public void AddObstacles(Obstacle[,] obstacles)
+        public void AddObstacles(ICollidable[,] obstacles)
         {
             if (_collidables == null)
             {
-                _collidables = new List<Collidable>();
+                _collidables = new List<ICollidable>();
             }
             for (int i = 0; i < obstacles.GetLength(0); i++)
             {

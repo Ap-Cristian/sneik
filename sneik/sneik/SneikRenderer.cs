@@ -102,7 +102,7 @@ namespace sneik
             {
                 if (SnakeCell != null)
                 {
-                    _spriteBatch.Draw(_gameBoardObstacleTexture, Tools.PointToVector2(SnakeCell.Position), Tools.ModelsColorToFrameworkColor(SnakeCell.Color)); //draw snake
+                    _spriteBatch.Draw(_gameBoardObstacleTexture, Tools.PointToVector2(SnakeCell.Cell.Position), Tools.ModelsColorToFrameworkColor(SnakeCell.Cell.Color)); //draw snake
                 }
             }
             _spriteBatch.End();

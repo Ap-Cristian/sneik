@@ -1,4 +1,4 @@
-﻿using Logic.Attributes;
+﻿using Logic.Interfaces;
 using Logic.Systems;
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace Logic.Models
         private int _cellPadding = 2;
         //
         private int _obstacleCount = 0;
-        public List<Obstacle> Obstacles { get; set; }
+        public List<ICollidable> Obstacles { get; set; }
 
         private Size[] _gameboardSizes = {
             new Size(40, 40),   // easy
@@ -40,7 +40,7 @@ namespace Logic.Models
             var rand = new Random();
             BoardObstacles = new Obstacle[Size.Width,Size.Height];
             
-            Obstacles = new List<Obstacle>();
+            Obstacles = new List<ICollidable>();
             for (int i = 0; i < _obstacleCount; i++)
             {
                 int randX = rand.Next(Size.Width);

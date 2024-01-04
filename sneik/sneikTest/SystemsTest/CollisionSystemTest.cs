@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Logic.Attributes;
+
 using Logic.Systems;
 using Logic.Models;
 using System.Xml.Linq;
+using Logic.Interfaces;
+
 namespace sneikTest.SystemsTest
 {
     [TestClass]
     public class CollisionSystemTest
     {
-        List<Collidable> collidableList = new List<Collidable>();
+        List<ICollidable> collidableList = new List<ICollidable>();
 
         bool colliderACollided = false;
         bool colliderBCollided = false;

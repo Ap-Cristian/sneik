@@ -79,33 +79,42 @@ namespace sneik
             initTextures();
         }
 
+        public void StopGame()
+        {
+            _sneikGame.DrawUpdateDelegate -= onGameUpdate;
+            _sneikGame.StopGameLoop();
+        }
         public void draw()
         {
-            //apparently monogame doesnt like when you dont draw from the UI thread(draw from sneik.cs), which is understanable.
-            _spriteBatch.Begin();
-
-            foreach (var boardCell in _sneikGame.round.Board.BoardCells)
+            if (_sneikGame.round != null) 
             {
-                _spriteBatch.Draw(_gameBoardCellTexture, Tools.PointToVector2(boardCell.Position), Tools.ModelsColorToFrameworkColor(boardCell.Color)); //draw board
-            }
+                //apparently monogame doesnt like when you dont draw from the UI thread(draw from sneik.cs), which is understanable.
+                _spriteBatch.Begin();
 
-            foreach (var boardObstacle in _sneikGame.round.Board.BoardObstacles)
-            {
-                if (boardObstacle != null)
+                foreach (var boardCell in _sneikGame.round.Board.BoardCells)
                 {
-                    _spriteBatch.Draw(_gameBoardObstacleTexture, Tools.PointToVector2(boardObstacle.Cell.Position), Tools.ModelsColorToFrameworkColor(boardObstacle.Cell.Color)); //draw obstacles
+                    _spriteBatch.Draw(_gameBoardCellTexture, Tools.PointToVector2(boardCell.Position), Tools.ModelsColorToFrameworkColor(boardCell.Color)); //draw board
                 }
-            }
 
-            //this is where the snek should be drawn
-            foreach (var SnakeCell in _sneikGame.round.Snake.SnakeBodyPartsScreenSpace)
-            {
-                if (SnakeCell != null)
+                foreach (var boardObstacle in _sneikGame.round.Board.BoardObstacles)
                 {
-                    _spriteBatch.Draw(_gameBoardObstacleTexture, Tools.PointToVector2(SnakeCell.Cell.Position), Tools.ModelsColorToFrameworkColor(SnakeCell.Cell.Color)); //draw snake
+                    if (boardObstacle != null)
+                    {
+                        _spriteBatch.Draw(_gameBoardObstacleTexture, Tools.PointToVector2(boardObstacle.Cell.Position), Tools.ModelsColorToFrameworkColor(boardObstacle.Cell.Color)); //draw obstacles
+                    }
                 }
+
+                //this is where the snek should be drawn
+                foreach (var SnakeCell in _sneikGame.round.Snake.SnakeBodyPartsScreenSpace)
+                {
+                    if (SnakeCell != null)
+                    {
+                        _spriteBatch.Draw(_gameBoardObstacleTexture, Tools.PointToVector2(SnakeCell.Cell.Position), Tools.ModelsColorToFrameworkColor(SnakeCell.Cell.Color)); //draw snake
+                    }
+                }
+                _spriteBatch.End();
             }
-            _spriteBatch.End();
+            
         }
     }
 }

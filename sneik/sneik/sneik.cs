@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using sneik.States;
 
 namespace sneik
 {
@@ -9,14 +10,14 @@ namespace sneik
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private SneikRenderer _sneikRenderer;
-        private SneikGame _sneikGame;
+        private State _currentState;
+        private State _nextState;
+
         public sneik()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _sneikGame = SneikGame.Instance;
         }
 
         protected override void Initialize()
@@ -33,26 +34,39 @@ namespace sneik
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _sneikRenderer = new SneikRenderer(_spriteBatch, GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            _currentState = new MenuState(this, GraphicsDevice, Content);
+            _currentState.LoadContent();
+            _nextState = null;
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            {
+                if (_nextState != null)
+                {
+                    _currentState = _nextState;
+                    _currentState.LoadContent();
 
-            // TODO: Add your update logic here
+                    _nextState = null;
+                }
+
+                _currentState.Update(gameTime);
+
+                _currentState.PostUpdate(gameTime);
+            }
             base.Update(gameTime);
         }
 
+        public void ChangeState(State state)
+        {
+            _nextState = state;
+        }
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
-            _sneikRenderer.draw();
+            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.AliceBlue);
 
-            // TODO: Add your drawing code here
+            _currentState.Draw(gameTime, _spriteBatch);
             base.Draw(gameTime);
         }
     }

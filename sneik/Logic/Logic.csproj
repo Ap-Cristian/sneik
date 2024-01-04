@@ -40,7 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\ICollidable.cs" />
-    <Compile Include="Models\Collider.cs" />
     <Compile Include="Models\Colors.cs" />
     <Compile Include="Models\Difficulty.cs" />
     <Compile Include="Models\Direction.cs" />

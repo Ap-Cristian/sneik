@@ -58,6 +58,11 @@ namespace Logic.Models
 
             }
         }
+        public int GetScore()
+        {
+            return (Snake.GetSize() - _snakeInitialSize) * 100;
+        }
+
         public void Start()
         {
 

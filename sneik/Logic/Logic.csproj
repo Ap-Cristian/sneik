@@ -40,9 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\ICollidable.cs" />
-    <Compile Include="Models\Colors.cs" />
-    <Compile Include="Models\Difficulty.cs" />
-    <Compile Include="Models\Direction.cs" />
+    <Compile Include="Enums\Colors.cs" />
+    <Compile Include="Enums\Difficulty.cs" />
+    <Compile Include="Enums\Direction.cs" />
     <Compile Include="Models\FoodPallet.cs" />
     <Compile Include="Models\SnakePart.cs" />
     <Compile Include="Models\SneikGame.cs" />
@@ -58,8 +58,6 @@
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Attributes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

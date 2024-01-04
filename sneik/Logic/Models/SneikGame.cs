@@ -22,13 +22,20 @@ namespace Logic.Models
                 this.DrawUpdateDelegate?.Invoke(this, EventArgs.Empty);
                 Thread.Sleep(100);
             }
-            _gameThread.Join();
+           
         }
         private SneikGame() {
             round = Round.Instance;
-            _gameThread = new Thread(new ThreadStart(this.StartGameLoop));
+            _gameThread = new Thread(this.StartGameLoop);
             _gameThread.Start();
         }
+
+        public void StopGameLoop()
+        {
+            round = null;
+            _gameThread.Join();
+        }
+
 
         public static SneikGame Instance
         {

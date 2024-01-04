@@ -26,6 +26,7 @@ namespace Logic.Models
         {
             Debug.WriteLine("Snake collided!");
             //check if collided with obstacle, if true end round
+
         }
 
         private Round()
@@ -57,6 +58,11 @@ namespace Logic.Models
 
             }
         }
+        public int GetScore()
+        {
+            return (Snake.GetSize() - _snakeInitialSize) * 100;
+        }
+
         public void Start()
         {
 

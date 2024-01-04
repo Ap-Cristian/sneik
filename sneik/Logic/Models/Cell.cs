@@ -9,6 +9,8 @@ namespace Logic.Models
     public class Cell
     {
         private Guid _id;
+
+        public Guid Id { get { return _id; } }
         //up-left corner of cell
         public Point Position { get; set; }
         public Size Size { get; set; }

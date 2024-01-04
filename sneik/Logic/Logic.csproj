@@ -39,11 +39,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\Collidable.cs" />
-    <Compile Include="Models\Collider.cs" />
+    <Compile Include="Interfaces\ICollidable.cs" />
     <Compile Include="Models\Colors.cs" />
     <Compile Include="Models\Difficulty.cs" />
     <Compile Include="Models\Direction.cs" />
+    <Compile Include="Models\FoodPallet.cs" />
+    <Compile Include="Models\SnakePart.cs" />
     <Compile Include="Models\SneikGame.cs" />
     <Compile Include="Models\GameBoard.cs" />
     <Compile Include="Models\Obstacle.cs" />
@@ -56,6 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Attributes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

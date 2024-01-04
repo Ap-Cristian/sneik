@@ -7,28 +7,11 @@ using System.Threading.Tasks;
 
 namespace Logic.Models
 {
-    public class SnakePart : ICollidable
+    public class FoodPallet : ICollidable
     {
-
-
         public Cell Cell { get; set; }
         public event EventHandler CollisionHandler;
 
-        public SnakePart(Point position, Size size, Color color = Color.RED)
-        {
-            Cell = new Cell(position, size, color);
-            
-        }
-        public SnakePart(Cell cell)
-        {
-            Cell = cell;
-        }
-        public SnakePart(SnakePart snakePart)
-        {
-            Cell = snakePart.Cell;
-            CollisionHandler = snakePart.CollisionHandler;
-
-        }
         public bool CheckCollision(ICollidable collidable)
         {
             if (collidable.Cell.Position.X == this.Cell.Position.X && collidable.Cell.Position.Y == this.Cell.Position.Y)
@@ -38,6 +21,22 @@ namespace Logic.Models
             }
             return false;
         }
+        public FoodPallet(Point position, Size size, Color color = Color.AIR_SUPERIORITY_BLUE)
+        {
+            Cell = new Cell(position, size, color);
+
+        }
+        public FoodPallet(Cell cell)
+        {
+            Cell = cell;
+        }
+        public FoodPallet(FoodPallet foodPallet)
+        {
+            Cell = foodPallet.Cell;
+            CollisionHandler = foodPallet.CollisionHandler;
+
+        }
+
     }
-    
+  
 }

@@ -8,7 +8,7 @@ namespace Logic.Models
     sealed public class Round
     {
         //this will have to be set from snakeGame once the user selects a difficulty
-        private Difficulty _difficulty = Difficulty.EASY;
+        private Difficulty _difficulty = Difficulty.NIGHTMARE;
 
 
         private static Round instance;

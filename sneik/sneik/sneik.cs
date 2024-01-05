@@ -25,7 +25,7 @@ namespace sneik
             // TODO: Add your initialization logic here
             _graphics.IsFullScreen = false;
             _graphics.PreferredBackBufferWidth = 800;
-            _graphics.PreferredBackBufferHeight = 600;
+            _graphics.PreferredBackBufferHeight = 800;
             _graphics.ApplyChanges();
 
 

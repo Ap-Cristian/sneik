@@ -116,23 +116,34 @@ namespace sneik
                 //apparently monogame doesnt like when you dont draw from the UI thread(draw from sneik.cs), which is understanable.
                 _spriteBatch.Begin();
 
+                
+                int width = _graphicsDevice.Viewport.Width;
+                int height = _graphicsDevice.Viewport.Height;
+                Point point;
+
+                int paddingWidth = width/4 - (_sneikGame.round.Board.Size.Width * _sneikGame.round.Board.CellSize.Width)/4;
+                int paddingHeight = height/4 - (_sneikGame.round.Board.Size.Height * _sneikGame.round.Board.CellSize.Height)/4;
+
+                point = new Point(paddingWidth, paddingHeight);
+
+
                 foreach (var boardCell in _sneikGame.round.Board.BoardCells)
                 {
-                    _spriteBatch.Draw(_gameBoardCellTexture, Tools.PointToVector2(boardCell.Position), Tools.ModelsColorToFrameworkColor(boardCell.Color)); //draw board
+                    _spriteBatch.Draw(_gameBoardCellTexture, Tools.PointToVector2(boardCell.Position + point), Tools.ModelsColorToFrameworkColor(boardCell.Color)); //draw board
                 }
 
                 foreach (var boardObstacle in _sneikGame.round.Board.BoardObstacles)
                 {
                     if (boardObstacle != null)
                     {
-                        _spriteBatch.Draw(_gameBoardObstacleTexture, Tools.PointToVector2(boardObstacle.Cell.Position), Tools.ModelsColorToFrameworkColor(boardObstacle.Cell.Color)); //draw obstacles
+                        _spriteBatch.Draw(_gameBoardObstacleTexture, Tools.PointToVector2(boardObstacle.Cell.Position + point), Tools.ModelsColorToFrameworkColor(boardObstacle.Cell.Color)); //draw obstacles
                     }
                 }
                 foreach (var boardFood in _sneikGame.round.Board.BoardFood)
                 {
                     if (boardFood != null)
                     {
-                        _spriteBatch.Draw(_gameBoardFoodPalletTexture, Tools.PointToVector2(boardFood.Cell.Position), Tools.ModelsColorToFrameworkColor(boardFood.Cell.Color)); //draw food
+                        _spriteBatch.Draw(_gameBoardFoodPalletTexture, Tools.PointToVector2(boardFood.Cell.Position + point), Tools.ModelsColorToFrameworkColor(boardFood.Cell.Color)); //draw food
                     }
                 }
 
@@ -141,7 +152,7 @@ namespace sneik
                 {
                     if (SnakeCell != null)
                     {
-                        _spriteBatch.Draw(_gameBoardObstacleTexture, Tools.PointToVector2(SnakeCell.Cell.Position), Tools.ModelsColorToFrameworkColor(SnakeCell.Cell.Color)); //draw snake
+                        _spriteBatch.Draw(_gameBoardObstacleTexture, Tools.PointToVector2(SnakeCell.Cell.Position + point), Tools.ModelsColorToFrameworkColor(SnakeCell.Cell.Color)); //draw snake
                     }
                 }
                 _spriteBatch.End();

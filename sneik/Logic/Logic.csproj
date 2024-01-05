@@ -39,14 +39,20 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\UseCaseFactory.cs" />
+    <Compile Include="Helpers\HighscoreReader.cs" />
+    <Compile Include="Interfaces\IHighscoreReader.cs" />
+    <Compile Include="Interfaces\IUseCaseFactory.cs" />
     <Compile Include="Interfaces\ICollidable.cs" />
     <Compile Include="Enums\Colors.cs" />
     <Compile Include="Enums\Difficulty.cs" />
     <Compile Include="Enums\Direction.cs" />
+    <Compile Include="Interfaces\IUseCase.cs" />
     <Compile Include="Delegates\CollisionEventHandler.cs" />
     <Compile Include="Models\FoodPallet.cs" />
+    <Compile Include="Models\HighscoresUseCase.cs" />
     <Compile Include="Models\SnakePart.cs" />
-    <Compile Include="Models\SneikGame.cs" />
+    <Compile Include="Models\SneikGameUseCase.cs" />
     <Compile Include="Models\GameBoard.cs" />
     <Compile Include="Models\Obstacle.cs" />
     <Compile Include="Models\Point.cs" />
@@ -59,6 +65,11 @@
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Attributes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Helpers\Scores.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

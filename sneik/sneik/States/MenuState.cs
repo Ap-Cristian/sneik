@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Logic.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using sneik.Controls;
 
 namespace sneik.States
@@ -74,7 +71,7 @@ namespace sneik.States
 
         private void Button_Highscores_Click(object sender, EventArgs args)
         {
-            _game.ChangeState(new HighscoresState(_game, _graphicsDevice, _content));
+            _game.ChangeState(new HighscoresState(_game, _graphicsDevice, _content, new UseCaseFactory()));
         }
 
         public override void Update(GameTime gameTime)

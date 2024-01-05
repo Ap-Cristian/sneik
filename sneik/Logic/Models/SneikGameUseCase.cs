@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+using Logic.Interfaces;
 
 namespace Logic.Models
 {
-    public class SneikGame
+    public class SneikGameUseCase : IUseCase
     {
-        private static SneikGame instance;
+        private static SneikGameUseCase instance;
         public Round round { get; set; }
 
         public event EventHandler DrawUpdateDelegate;
@@ -22,12 +19,11 @@ namespace Logic.Models
                 this.DrawUpdateDelegate?.Invoke(this, EventArgs.Empty);
                 Thread.Sleep(100);
             }
-           
+
         }
-        private SneikGame() {
-            round = Round.Instance;
-            _gameThread = new Thread(this.StartGameLoop);
-            _gameThread.Start();
+        private SneikGameUseCase()
+        {
+            round = Round.Instance ?? throw new Exception("Round instance is null");
         }
 
         public void StopGameLoop()
@@ -37,18 +33,24 @@ namespace Logic.Models
         }
 
 
-        public static SneikGame Instance
+        public static SneikGameUseCase Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new SneikGame();
+                    instance = new SneikGameUseCase();
                 }
                 return instance;
             }
         }
 
 
+        public void Execute()
+        {
+            round = Round.Instance ?? throw new Exception("Round instance is null");
+            _gameThread = new Thread(this.StartGameLoop);
+            _gameThread.Start();
+        }
     }
 }

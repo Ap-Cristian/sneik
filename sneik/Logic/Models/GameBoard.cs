@@ -10,12 +10,20 @@ namespace Logic.Models
 {
     public enum ObstacleCoef
     {
-        EASY = 60,
-        MEDIUM = 70,
-        HARD = 80,
-        VERY_HARD = 90,
-        NIGHTMARE = 100,
+        EASY = 30,
+        MEDIUM = 40,
+        HARD = 60,
+        VERY_HARD = 80,
+        NIGHTMARE = 150,
     };
+    public enum  CellSizeCoef
+    {
+        EASY = 20,
+        MEDIUM = 10,
+        HARD = 10,
+        VERY_HARD = 5,
+        NIGHTMARE = 5,
+    }
     public class GameBoard
     {
         private ICollidableFactory _collidableFactory;
@@ -25,7 +33,7 @@ namespace Logic.Models
         public Size Size { get; private set; } // cells count 
 
         //config fields
-        private Size _cellSize = new Size(10, 10);
+        public Size CellSize { get; }
         private int _cellPadding = 2;
         //
         private int _obstacleCount = 0;
@@ -35,11 +43,11 @@ namespace Logic.Models
         public List<ICollidable> Food { get; set; }
 
         private Size[] _gameboardSizes = {
-            new Size(40, 40),   // easy
-            new Size(60, 60),   // medium
-            new Size(80, 80),   // hard
-            new Size(100, 100), // very hard
-            new Size(120, 120)  // nightmare
+            new Size(20, 20),   // easy
+            new Size(30, 30),   // medium
+            new Size(50, 50),   // hard
+            new Size(70, 70), // very hard
+            new Size(100, 100)  // nightmare
         };
         public Difficulty Difficulty { get; set; }
         private CollisionSystem _collisionSystem;
@@ -63,8 +71,8 @@ namespace Logic.Models
                 int randY = rand.Next(Size.Height);
 
                 Point currentPos = BoardCells[randX, randY].Position;
-                ICollidable currentFood = _collidableFactory.Create<FoodPallet>(currentPos, _cellSize, Color.YELLOW);
-                
+                ICollidable currentFood = _collidableFactory.Create<FoodPallet>(currentPos, CellSize, Color.YELLOW);
+
                 bool collidingWithExisting = false;
 
                 for (int j = 0; j < Food.Count; j++)
@@ -86,7 +94,7 @@ namespace Logic.Models
                     randY = rand.Next(Size.Height);
 
                     currentPos = BoardCells[randX, randY].Position;
-                    currentFood = _collidableFactory.Create<FoodPallet>(currentPos, _cellSize, Color.YELLOW);
+                    currentFood = _collidableFactory.Create<FoodPallet>(currentPos, CellSize, Color.YELLOW);
                     collidingWithExisting = false;
 
                     for (int j = 0; j < Food.Count; j++)
@@ -121,7 +129,7 @@ namespace Logic.Models
                 int randY = rand.Next(Size.Height);
 
                 Point currentPos = BoardCells[randX,randY].Position;
-                ICollidable currentObstacle = _collidableFactory.Create<Obstacle>(currentPos, _cellSize, Color.TEA_GREEN);
+                ICollidable currentObstacle = _collidableFactory.Create<Obstacle>(currentPos, CellSize, Color.TEA_GREEN);
                 
                 bool collidingWithExisting = false;
 
@@ -139,7 +147,7 @@ namespace Logic.Models
                     randY = rand.Next(Size.Height);
 
                     currentPos = BoardCells[randX, randY].Position;
-                    currentObstacle = _collidableFactory.Create<Obstacle>(currentPos, _cellSize, Color.TEA_GREEN);
+                    currentObstacle = _collidableFactory.Create<Obstacle>(currentPos, CellSize, Color.TEA_GREEN);
                     collidingWithExisting = false;
 
                     for (int j = 0; j < Obstacles.Count; j++)
@@ -166,22 +174,33 @@ namespace Logic.Models
                 case Difficulty.EASY:
                     Size = _gameboardSizes[0];
                     _obstacleCount = (int)ObstacleCoef.EASY;
+                    CellSize = new Size((int)CellSizeCoef.EASY, (int)CellSizeCoef.EASY);
+                    _cellPadding = 5;
                     break;
                 case Difficulty.MEDIUM:
                     Size = _gameboardSizes[1];
                     _obstacleCount = (int)ObstacleCoef.MEDIUM;
+                    CellSize = new Size((int)CellSizeCoef.MEDIUM, (int)CellSizeCoef.MEDIUM);
+                    _cellPadding = 5;
                     break;
                 case Difficulty.HARD:
                     Size = _gameboardSizes[2];
                     _obstacleCount = (int)ObstacleCoef.HARD;
+                    CellSize = new Size((int)CellSizeCoef.HARD, (int)CellSizeCoef.HARD);
+                    _cellPadding = 3;
+
                     break;
                 case Difficulty.VERY_HARD:
                     Size = _gameboardSizes[3];
                     _obstacleCount = (int)ObstacleCoef.VERY_HARD;
+                    CellSize = new Size((int)CellSizeCoef.VERY_HARD, (int)CellSizeCoef.VERY_HARD);
+                    _cellPadding = 2;
                     break;
                 case Difficulty.NIGHTMARE:
                     Size = _gameboardSizes[4];
                     _obstacleCount = (int)ObstacleCoef.NIGHTMARE;
+                    CellSize = new Size((int)CellSizeCoef.NIGHTMARE, (int)CellSizeCoef.NIGHTMARE);
+                    _cellPadding = 2;
                     break;
             }
             _foodCount = 1;
@@ -194,10 +213,10 @@ namespace Logic.Models
             {
                 for (int y = 0; y < Size.Height; y++)
                 {
-                    BoardCells[x, y] = new Cell(new Point(currentPos), _cellSize, Color.PAYNES_GRAY);
-                    currentPos.Y += _cellSize.Height + _cellPadding;
+                    BoardCells[x, y] = new Cell(new Point(currentPos), CellSize, Color.PAYNES_GRAY);
+                    currentPos.Y += CellSize.Height + _cellPadding;
                 }
-                currentPos.X += _cellSize.Width + _cellPadding;
+                currentPos.X += CellSize.Width + _cellPadding;
                 currentPos.Y = 0;
 
             }

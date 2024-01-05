@@ -19,6 +19,8 @@ namespace Logic.Models
         public Obstacle[,] BoardObstacles { get; set; }
         public Size Size { get; private set; } // cells count 
 
+        public Snake Snake { get; set; }
+
         //config fields
         private Size _cellSize = new Size(10, 10);
         private int _cellPadding = 2;
@@ -81,6 +83,28 @@ namespace Logic.Models
             }
             _collisionSystem.AddObstacles(BoardObstacles);
         }
+        public void SpawnSnake()
+        {
+            Snake = new Snake(3, Size.Width, Size.Height);
+        }
+
+        public void UpdateSnake()
+        {
+            var snakepartsIdx = Snake.SnakeBodyPartsBoardIdx();
+            //update snake body parts like this
+            //    int idx = 0;
+            //    foreach (var boardIdx in _snakeBodyPartsBoardIdx)
+            //    {
+            //        this.SnakeBodyPartsScreenSpace[idx].Cell.Position = this._board.BoardCells[boardIdx.X, boardIdx.Y].Position;
+            //        idx++;
+            //    }
+            //    this.HeadCollidable.Cell.Position =SnakeBodyPartsScreenSpace.First().Cell.Position;
+
+        
+
+
+        }
+
         public GameBoard(Difficulty difficulty)
         {
             Difficulty = difficulty;
@@ -123,7 +147,9 @@ namespace Logic.Models
                 currentPos.Y = 0;
 
             }
+            SpawnSnake();
             SpawnObstacles();
         }
+
     }
 }

@@ -34,8 +34,8 @@ namespace Logic.Models
             _collisionSystem = CollisionSystem.Instance;
             Board = new GameBoard(_difficulty);
             _gameBoardCenterPoint = new Point(Board.Size.Width / 2, Board.Size.Height / 2);
-            Snake = new Snake(_snakeInitialSize, Board);
-
+            //Snake = new Snake(_snakeInitialSize, Board);
+            Snake = Board.Snake;
             //this should not happen here
             Snake.HeadCollidable.CollisionHandler += onSnakeCollision;
         }
@@ -43,6 +43,7 @@ namespace Logic.Models
         public void Update()
         {
             Snake.Move();
+            Board.UpdateSnake();
             _collisionSystem.Update();
         }
 

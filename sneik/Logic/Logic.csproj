@@ -43,6 +43,7 @@
     <Compile Include="Enums\Colors.cs" />
     <Compile Include="Enums\Difficulty.cs" />
     <Compile Include="Enums\Direction.cs" />
+    <Compile Include="Delegates\CollisionEventHandler.cs" />
     <Compile Include="Models\FoodPallet.cs" />
     <Compile Include="Models\SnakePart.cs" />
     <Compile Include="Models\SneikGame.cs" />

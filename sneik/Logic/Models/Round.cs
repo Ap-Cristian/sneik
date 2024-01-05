@@ -1,4 +1,5 @@
-﻿using Logic.Systems;
+﻿using Logic.Interfaces;
+using Logic.Systems;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,9 +23,9 @@ namespace Logic.Models
 
         private CollisionSystem _collisionSystem;
 
-        private void onSnakeCollision(Object sender, EventArgs args)
+        private void onSnakeCollision(string collidedObstacleType)
         {
-            Debug.WriteLine("Snake collided!");
+            Debug.WriteLine("Snake collided with object type: " +  "["+ collidedObstacleType +"]");
             //check if collided with obstacle, if true end round
 
         }

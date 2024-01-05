@@ -40,6 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Factories\CollidableFactory.cs" />
+    <Compile Include="Delegates\InputEventHandler.cs" />
+    <Compile Include="Enums\Keys.cs" />
     <Compile Include="Factories\UseCaseFactory.cs" />
     <Compile Include="Helpers\HighscoreReader.cs" />
     <Compile Include="Interfaces\ICollidableFactory.cs" />
@@ -50,6 +52,7 @@
     <Compile Include="Enums\Difficulty.cs" />
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="Interfaces\IUseCase.cs" />
+    <Compile Include="Delegates\CollisionEventHandler.cs" />
     <Compile Include="Models\FoodPallet.cs" />
     <Compile Include="Models\HighscoresUseCase.cs" />
     <Compile Include="Models\SnakePart.cs" />

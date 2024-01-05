@@ -4,10 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Logic.Factories;
 using Logic.Interfaces;
+using sneik.Interfaces;
 
 namespace sneik
 {
-    public class SneikRenderer
+    public class SneikRenderer : IUpdateable
     {
         private SneikGameUseCase _sneikGame;
         private SpriteBatch _spriteBatch;
@@ -17,7 +18,6 @@ namespace sneik
         private Texture2D _gameBoardObstacleTexture;
         private Texture2D _sneikTexture;
 
-        private bool shouldUpdate = true;
 
         private void initTextures()
         {
@@ -88,7 +88,7 @@ namespace sneik
             _sneikGame.DrawUpdateDelegate -= onGameUpdate;
             _sneikGame.StopGameLoop();
         }
-        public void draw()
+        public void Update()
         {
             if (_sneikGame.round != null) 
             {

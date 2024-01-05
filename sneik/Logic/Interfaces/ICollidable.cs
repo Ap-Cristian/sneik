@@ -11,7 +11,7 @@ namespace Logic.Interfaces
     {
       
         Cell Cell { get; set; }
-        event EventHandler CollisionHandler;
+        event CollisionEventHandler CollisionHandler;
 
         bool CheckCollision(ICollidable collidable);
 

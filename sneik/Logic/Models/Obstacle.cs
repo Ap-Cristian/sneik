@@ -21,7 +21,7 @@ namespace Logic.Models
             CollisionHandler = obstacle.CollisionHandler;
         }
 
-        public event EventHandler CollisionHandler;
+        public event CollisionEventHandler CollisionHandler;
 
         public bool CheckCollision(ICollidable collidable)
         {
@@ -47,7 +47,18 @@ namespace Logic.Models
                 //raise collision event here
                 //pass collidable object type as event args
                 //create CollidedEventArgs 
-                CollisionHandler?.Invoke(this, EventArgs.Empty);
+                switch (collidable)
+                {
+                    case Obstacle _:
+                        CollisionHandler?.Invoke("Obstacle");
+                        break;
+                    case FoodPallet _:
+                        CollisionHandler?.Invoke("FoodPallet");
+                        break;
+                    case SnakePart _:
+                        CollisionHandler?.Invoke("SnakePart");
+                        break;
+                }
                 return true;
             }
             return false;

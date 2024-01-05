@@ -20,15 +20,15 @@ namespace sneikTest.SystemsTest
         bool colliderBCollided = false;
         bool colliderCCollided = false;
 
-        private void onColliderACollided(object sender, EventArgs args)
+        private void onColliderACollided(string collidedObjectType)
         {
             colliderACollided = true;
         }
-        private void onColliderBCollided(object sender, EventArgs args)
+        private void onColliderBCollided(string collidedObjectType)
         {
             colliderBCollided = true;
         }
-        private void onColliderCCollided(object sender, EventArgs args)
+        private void onColliderCCollided(string collidedObjectType)
         {
             colliderCCollided = true;
         }

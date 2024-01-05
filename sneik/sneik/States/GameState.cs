@@ -12,10 +12,12 @@ namespace sneik.States
         private SpriteBatch _spriteBatch;
         private SneikRenderer _sneikRenderer;
         private GraphicsDevice _graphicsDevice;
+        private InputHandler _inputHandler;
 
         public GameState(sneik game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
             _graphicsDevice = graphicsDevice;
+            _inputHandler = new InputHandler();
         }
 
         public override void LoadContent()
@@ -27,7 +29,7 @@ namespace sneik.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            _sneikRenderer.draw();
+            _sneikRenderer.Update();
         }
 
         public override void PostUpdate(GameTime gameTime)
@@ -43,7 +45,7 @@ namespace sneik.States
                 _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
             }
 
-            
+        _inputHandler.Update();
 
         }
     }

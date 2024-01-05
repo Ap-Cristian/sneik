@@ -8,12 +8,6 @@ namespace Logic.Systems
 {
     public sealed class CollisionSystem
     {
-        // ECS based collision system
-        // check this out --> https://en.wikipedia.org/wiki/Entity_component_system
-        // and this https://chat.openai.com/share/e2c763f7-942a-4670-ab5f-13020f021bc0
-        //
-        // If you wish to create a collidable, first derive it from Collidable and then add it to the _collidables list, the system "should" handle the rest on update:)
-
         private CollisionSystem() { }
         private List<ICollidable> _collidables = null;
         private static CollisionSystem _instance;
@@ -28,16 +22,16 @@ namespace Logic.Systems
                 return _instance;
             }
         }
-        public void AddCollidables(List<ICollidable> collidables)
+        public void SetCollidables(List<ICollidable> collidables)
+        {
+            _collidables = collidables;
+        }
+        public void AddCollidable(List<ICollidable> collidables)
         {
             if (_collidables != null)
                 _collidables.AddRange(collidables);
             else
                 _collidables = collidables;
-        }
-        public void SetCollidables(List<ICollidable> collidables)
-        {
-            _collidables = collidables;
         }
         public void AddCollidable(ICollidable collidable)
         {

@@ -85,7 +85,7 @@ namespace Logic.Models
         {
             Difficulty = difficulty;
             _collisionSystem = CollisionSystem.Instance;
-            // TODO: generate obstacles randomly
+
             switch (this.Difficulty)
             {
                 case Difficulty.EASY:

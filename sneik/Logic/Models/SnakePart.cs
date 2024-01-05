@@ -1,5 +1,6 @@
 ﻿using Logic.Interfaces;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace Logic.Models
 
 
         public Cell Cell { get; set; }
-        public event EventHandler CollisionHandler;
+        public event CollisionEventHandler CollisionHandler;
 
         public SnakePart(Point position, Size size, Color color = Color.RED)
         {
@@ -52,7 +53,18 @@ namespace Logic.Models
                 //raise collision event here
                 //pass collidable object type as event args
                 //create CollidedEventArgs 
-                CollisionHandler?.Invoke(this, EventArgs.Empty);
+                switch (collidable)
+                {
+                    case Obstacle _:
+                        CollisionHandler?.Invoke("Obstacle");
+                        break;
+                    case FoodPallet _:
+                        CollisionHandler?.Invoke("FoodPallet");
+                        break;
+                    case SnakePart _:
+                        CollisionHandler?.Invoke("SnakePart");
+                        break;
+                }
                 return true;
             }
             return false;

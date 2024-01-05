@@ -16,6 +16,8 @@ namespace sneik.States
         private List<Component> components;
         private IUseCaseFactory  _useCaseFactory;
         private SpriteFont font;
+        private Texture2D backGroundTexture;
+
 
         public HighscoresState(sneik game, GraphicsDevice graphicsDevice, ContentManager content, IUseCaseFactory useCaseFactory)
           : base(game, graphicsDevice, content)
@@ -41,13 +43,11 @@ namespace sneik.States
         public override void LoadContent()
         {
             font = _content.Load<SpriteFont>("ButtonFonts/Font");
+            backGroundTexture = _content.Load<Texture2D>("Background/highscoreBackground");
         }
 
 
-        private void Button_Replay_Click(object sender, EventArgs args)
-        {
-            _game.ChangeState(new GameState(_game, _graphicsDevice, _content));
-        }
+        
 
         private void Button_MainMenu_Click(object sender, EventArgs args)
         {
@@ -70,9 +70,11 @@ namespace sneik.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+
             HighscoresUseCase highscoresUseCase = _useCaseFactory.Create<HighscoresUseCase>() as HighscoresUseCase;
             highscoresUseCase.Execute();
             spriteBatch.Begin(SpriteSortMode.FrontToBack);
+            spriteBatch.Draw(backGroundTexture, new Vector2(0, 0), Color.White);
 
             foreach (var component in components)
                 component.Draw(gameTime, spriteBatch);

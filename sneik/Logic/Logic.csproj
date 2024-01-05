@@ -48,11 +48,13 @@
     <Compile Include="Factories\CollidableFactory.cs" />
     <Compile Include="Delegates\InputEventHandler.cs" />
     <Compile Include="Enums\Keys.cs" />
+    <Compile Include="Factories\StrategyFactory.cs" />
     <Compile Include="Factories\UseCaseFactory.cs" />
     <Compile Include="Helpers\HighscoreReader.cs" />
     <Compile Include="Interfaces\ICollidableFactory.cs" />
     <Compile Include="Interfaces\IHighscoreReader.cs" />
     <Compile Include="Interfaces\IStrategy.cs" />
+    <Compile Include="Interfaces\IStrategyFactory.cs" />
     <Compile Include="Interfaces\IUseCaseFactory.cs" />
     <Compile Include="Interfaces\ICollidable.cs" />
     <Compile Include="Enums\Colors.cs" />
@@ -80,6 +82,7 @@
     <Folder Include="Attributes\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Helpers\Difficulty.txt" />
     <Content Include="Helpers\Scores.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

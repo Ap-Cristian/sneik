@@ -59,7 +59,7 @@ namespace sneik.States
 
         private void Button_StartGame_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new GameState(_game, _graphicsDevice, _content));
+            _game.ChangeState(new SelectDifficultyState(_game, _graphicsDevice, _content));
         }
 
        

@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Logic.Factories;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
 
 namespace sneik.States
 {
@@ -20,7 +22,7 @@ namespace sneik.States
         {
             _spriteBatch = new SpriteBatch(_graphicsDevice);
 
-            _sneikRenderer = new SneikRenderer(_spriteBatch, _graphicsDevice);
+            _sneikRenderer = new SneikRenderer(_spriteBatch, _graphicsDevice, new UseCaseFactory());
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

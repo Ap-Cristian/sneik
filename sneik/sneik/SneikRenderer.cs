@@ -2,15 +2,17 @@
 using sneikTools;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Logic.Factories;
+using Logic.Interfaces;
 
 namespace sneik
 {
     public class SneikRenderer
     {
-        private SneikGame _sneikGame;
+        private SneikGameUseCase _sneikGame;
         private SpriteBatch _spriteBatch;
         private GraphicsDevice _graphicsDevice;
-
+        private IUseCaseFactory _useCaseFactory;
         private Texture2D _gameBoardCellTexture;
         private Texture2D _gameBoardObstacleTexture;
         private Texture2D _sneikTexture;
@@ -69,10 +71,12 @@ namespace sneik
             //currently unused, maybe usefull down the line
             //could be used for input handling?
         }
-        public SneikRenderer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
+        public SneikRenderer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, IUseCaseFactory useCaseFactory)
         {
+            _useCaseFactory = useCaseFactory;
             _spriteBatch = spriteBatch;
-            _sneikGame = SneikGame.Instance;
+            _sneikGame = _useCaseFactory.Create<SneikGameUseCase>() as SneikGameUseCase;
+            _sneikGame.Execute();
             _sneikGame.DrawUpdateDelegate += onGameUpdate;
             _graphicsDevice = graphicsDevice;
 

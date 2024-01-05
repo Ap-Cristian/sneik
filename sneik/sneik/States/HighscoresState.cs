@@ -5,25 +5,24 @@ using Microsoft.Xna.Framework;
 using sneik.Controls;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Logic.Factories;
+using Logic.Models;
+using Color = Microsoft.Xna.Framework.Color;
 
 namespace sneik.States
 {
     public class HighscoresState : State
     {
         private List<Component> components;
-
+        private IUseCaseFactory  _useCaseFactory;
         private SpriteFont font;
 
-        public HighscoresState(sneik game, GraphicsDevice graphicsDevice, ContentManager content)
+        public HighscoresState(sneik game, GraphicsDevice graphicsDevice, ContentManager content, IUseCaseFactory useCaseFactory)
           : base(game, graphicsDevice, content)
         {
             var buttonTexture = _content.Load<Texture2D>("Controls/Button");
             var buttonFont = _content.Load<SpriteFont>("ButtonFonts/Font");
-
-           
+            _useCaseFactory = useCaseFactory;
 
             var mainMenuButton = new Button(buttonTexture, buttonFont)
             {
@@ -71,12 +70,23 @@ namespace sneik.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            HighscoresUseCase highscoresUseCase = _useCaseFactory.Create<HighscoresUseCase>() as HighscoresUseCase;
+            highscoresUseCase.Execute();
             spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
             foreach (var component in components)
                 component.Draw(gameTime, spriteBatch);
 
-            spriteBatch.DrawString(font, "Highscores:\n" + "plm", new Vector2(400, 100), Color.Black);
+            spriteBatch.DrawString(font, "Highscores:\n", new Vector2(400, 100), Color.Black);
+            int lineSpace = 30;
+            for (int i = 0; i < highscoresUseCase._highscores.Count; i++)
+            {
+
+
+                spriteBatch.DrawString(font, $"{i+1}. " + highscoresUseCase._highscores[i], new Vector2(400, 100 + (i+1) * lineSpace), Color.Black);
+
+
+            }
 
             spriteBatch.End();
         }

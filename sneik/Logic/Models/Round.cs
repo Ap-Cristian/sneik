@@ -31,6 +31,9 @@ namespace Logic.Models
                     EndRound();
                     Debug.WriteLine("Ending round...");
                     break;
+                    case "FoodPallet":
+                    Debug.WriteLine("Snake ate food pallet");
+                    break;
                 default:
                     break;
             }

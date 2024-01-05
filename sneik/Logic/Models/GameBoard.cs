@@ -97,6 +97,7 @@ namespace Logic.Models
                 Food.Add(currentFood);
                 BoardFood[randX, randY] = currentFood;
             }
+            _collisionSystem.AddCollidable(BoardFood);
         }
         private void SpawnObstacles()
         {
@@ -143,7 +144,7 @@ namespace Logic.Models
                 Obstacles.Add(currentObstacle);
                 BoardObstacles[randX,randY] = currentObstacle;
             }
-            _collisionSystem.AddObstacles(BoardObstacles);
+            _collisionSystem.AddCollidable(BoardObstacles);
         }
         public GameBoard(Difficulty difficulty, ICollidableFactory collidableFactory)
         {

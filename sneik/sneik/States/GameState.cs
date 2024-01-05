@@ -24,7 +24,7 @@ namespace sneik.States
         {
             _spriteBatch = new SpriteBatch(_graphicsDevice);
 
-            _sneikRenderer = new SneikRenderer(_spriteBatch, _graphicsDevice, new UseCaseFactory());
+            _sneikRenderer = new SneikRenderer(_spriteBatch, _graphicsDevice, new UseCaseFactory(), _content);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

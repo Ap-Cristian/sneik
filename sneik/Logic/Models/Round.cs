@@ -1,7 +1,9 @@
-﻿using Logic.Factories;
+﻿using Logic.Enums;
+using Logic.Factories;
 using Logic.Interfaces;
 using Logic.Systems;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Logic.Models
 {
@@ -10,6 +12,7 @@ namespace Logic.Models
         //this will have to be set from snakeGame once the user selects a difficulty
         private Difficulty _difficulty = Difficulty.NIGHTMARE;
 
+        private SnakeSpeed _snakeSpeed;
 
         private static Round instance;
         private const int _snakeInitialSize = 3;
@@ -52,12 +55,33 @@ namespace Logic.Models
             Snake = new Snake(_snakeInitialSize, Board, _collidableFactory);
 
             Snake.HeadCollidable.CollisionHandler += onSnakeCollision;
+
+            switch (_difficulty)
+            {
+                case Difficulty.EASY:
+                    this._snakeSpeed = SnakeSpeed.EASY;
+                    break;
+                case Difficulty.MEDIUM:
+                    this._snakeSpeed = SnakeSpeed.MEDIUM;
+                    break;
+                case Difficulty.HARD:
+                    this._snakeSpeed = SnakeSpeed.HARD;
+                    break;
+                case Difficulty.VERY_HARD:
+                    this._snakeSpeed = SnakeSpeed.VERY_HARD;
+                    break;
+                case Difficulty.NIGHTMARE:
+                    this._snakeSpeed = SnakeSpeed.NIGHTMARE;
+                    break;
+            }
         }
 
         public void Update()
         {
             Snake.Move();
             _collisionSystem.Update();
+            Thread.Sleep((int)this._snakeSpeed);
+
         }
         private void EndRound()
         {

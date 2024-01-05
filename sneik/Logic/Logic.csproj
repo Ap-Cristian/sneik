@@ -39,6 +39,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Delegates\InputEventHandler.cs" />
+    <Compile Include="Enums\Keys.cs" />
     <Compile Include="Factories\UseCaseFactory.cs" />
     <Compile Include="Helpers\HighscoreReader.cs" />
     <Compile Include="Interfaces\IHighscoreReader.cs" />

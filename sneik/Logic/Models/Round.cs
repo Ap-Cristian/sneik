@@ -1,12 +1,5 @@
-﻿using Logic.Interfaces;
-using Logic.Systems;
-using System;
-using System.Collections.Generic;
+﻿using Logic.Systems;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Logic.Models
 {
@@ -27,9 +20,16 @@ namespace Logic.Models
         {
             Debug.WriteLine("Snake collided with object type: " +  "["+ collidedObstacleType +"]");
             //check if collided with obstacle, if true end round
-
+            switch (collidedObstacleType)
+            {
+                case "Obstacle":
+                    EndRound();
+                    Debug.WriteLine("Ending round...");
+                    break;
+                default:
+                    break;
+            }
         }
-
         private Round()
         {
             _collisionSystem = CollisionSystem.Instance;
@@ -46,7 +46,11 @@ namespace Logic.Models
             Snake.Move();
             _collisionSystem.Update();
         }
-
+        private void EndRound()
+        {
+            instance = null;
+            //Environment.Exit(0);
+        }
         public static Round Instance
         {
             get

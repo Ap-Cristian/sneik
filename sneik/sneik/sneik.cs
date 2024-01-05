@@ -28,6 +28,7 @@ namespace sneik
             _graphics.PreferredBackBufferHeight = 600;
             _graphics.ApplyChanges();
 
+
             base.Initialize();
         }
 
@@ -42,19 +43,17 @@ namespace sneik
 
         protected override void Update(GameTime gameTime)
         {
+            if (_nextState != null)
             {
-                if (_nextState != null)
-                {
-                    _currentState = _nextState;
-                    _currentState.LoadContent();
+                _currentState = _nextState;
+                _currentState.LoadContent();
 
-                    _nextState = null;
-                }
-
-                _currentState.Update(gameTime);
-
-                _currentState.PostUpdate(gameTime);
+                _nextState = null;
             }
+
+            _currentState.Update(gameTime);
+            _currentState.PostUpdate(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -64,7 +63,7 @@ namespace sneik
         }
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.AliceBlue);
+            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
 
             _currentState.Draw(gameTime, _spriteBatch);
             base.Draw(gameTime);

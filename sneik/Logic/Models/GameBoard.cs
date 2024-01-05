@@ -1,7 +1,9 @@
-﻿using Logic.Interfaces;
+﻿using Logic.Factories;
+using Logic.Interfaces;
 using Logic.Systems;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Logic.Models
 {
@@ -15,8 +17,10 @@ namespace Logic.Models
     };
     public class GameBoard
     {
+        private ICollidableFactory _collidableFactory;
         public Cell[,] BoardCells { get; set; }
-        public Obstacle[,] BoardObstacles { get; set; }
+        public ICollidable[,] BoardObstacles { get; set; }
+        public ICollidable[,] BoardFood { get; set; }
         public Size Size { get; private set; } // cells count 
 
         //config fields
@@ -24,7 +28,10 @@ namespace Logic.Models
         private int _cellPadding = 2;
         //
         private int _obstacleCount = 0;
+        private int _foodCount = 0;
         public List<ICollidable> Obstacles { get; set; }
+
+        public List<ICollidable> Food { get; set; }
 
         private Size[] _gameboardSizes = {
             new Size(40, 40),   // easy
@@ -35,10 +42,67 @@ namespace Logic.Models
         };
         public Difficulty Difficulty { get; set; }
         private CollisionSystem _collisionSystem;
+        private void SpawnFoodPallet()
+        {
+            var rand = new Random();
+            BoardFood = new ICollidable[Size.Width, Size.Height];
+            
+            Food = new List<ICollidable>();
+            for (int i = 0; i < _foodCount; i++)
+            {
+                int randX = rand.Next(Size.Width);
+                int randY = rand.Next(Size.Height);
+
+                Point currentPos = BoardCells[randX, randY].Position;
+                ICollidable currentFood = _collidableFactory.Create<FoodPallet>(currentPos, _cellSize, Color.YELLOW);
+
+                bool collidingWithExisting = false;
+
+                for (int j = 0; j < Food.Count; j++)
+                {
+                    if (currentFood.CheckCollision(Food[j]))
+                    {
+                        collidingWithExisting = true;
+                        j = Food.Count;
+                    }
+                    if (currentFood.CheckCollision(Obstacles[j]))
+                    {
+                        collidingWithExisting = true;
+                        j = Food.Count;
+                    }
+                }
+                while (collidingWithExisting)
+                {
+                    randX = rand.Next(Size.Width);
+                    randY = rand.Next(Size.Height);
+
+                    currentPos = BoardCells[randX, randY].Position;
+                    currentFood = _collidableFactory.Create<FoodPallet>(currentPos, _cellSize, Color.YELLOW);
+                    collidingWithExisting = false;
+
+                    for (int j = 0; j < Food.Count; j++)
+                    {
+                        if (currentFood.CheckCollision(Food[j]))
+                        {
+                            collidingWithExisting = true;
+                            j = Food.Count;
+                        }
+                        if (currentFood.CheckCollision(Obstacles[j]))
+                        {
+                            collidingWithExisting = true;
+                            j = Food.Count;
+                        }
+                    }
+                }
+                Food.Add(currentFood);
+                BoardFood[randX, randY] = currentFood;
+            }
+            _collisionSystem.AddCollidable(BoardFood);
+        }
         private void SpawnObstacles()
         {
             var rand = new Random();
-            BoardObstacles = new Obstacle[Size.Width,Size.Height];
+            BoardObstacles = new ICollidable[Size.Width,Size.Height];
             
             Obstacles = new List<ICollidable>();
             for (int i = 0; i < _obstacleCount; i++)
@@ -47,7 +111,8 @@ namespace Logic.Models
                 int randY = rand.Next(Size.Height);
 
                 Point currentPos = BoardCells[randX,randY].Position;
-                Obstacle currentObstacle = new Obstacle(currentPos, _cellSize);
+                ICollidable currentObstacle = _collidableFactory.Create<Obstacle>(currentPos, _cellSize, Color.TEA_GREEN);
+                
                 bool collidingWithExisting = false;
 
                 for (int j = 0; j < Obstacles.Count; j++)
@@ -64,7 +129,7 @@ namespace Logic.Models
                     randY = rand.Next(Size.Height);
 
                     currentPos = BoardCells[randX, randY].Position;
-                    currentObstacle = new Obstacle(currentPos, _cellSize);
+                    currentObstacle = _collidableFactory.Create<Obstacle>(currentPos, _cellSize, Color.TEA_GREEN);
                     collidingWithExisting = false;
 
                     for (int j = 0; j < Obstacles.Count; j++)
@@ -79,14 +144,14 @@ namespace Logic.Models
                 Obstacles.Add(currentObstacle);
                 BoardObstacles[randX,randY] = currentObstacle;
             }
-            _collisionSystem.AddObstacles(BoardObstacles);
+            _collisionSystem.AddCollidable(BoardObstacles);
         }
-        public GameBoard(Difficulty difficulty)
+        public GameBoard(Difficulty difficulty, ICollidableFactory collidableFactory)
         {
             Difficulty = difficulty;
             _collisionSystem = CollisionSystem.Instance;
-
-            switch (this.Difficulty)
+            // TODO: generate obstacles randomly
+            switch (Difficulty)
             {
                 case Difficulty.EASY:
                     Size = _gameboardSizes[0];
@@ -109,6 +174,9 @@ namespace Logic.Models
                     _obstacleCount = (int)ObstacleCoef.NIGHTMARE;
                     break;
             }
+            _foodCount = 1;
+            _collidableFactory = collidableFactory;
+
 
             BoardCells = new Cell[Size.Width, Size.Height];
             var currentPos = new Point(0, 0);
@@ -124,6 +192,8 @@ namespace Logic.Models
 
             }
             SpawnObstacles();
+            SpawnFoodPallet();
+            
         }
     }
 }

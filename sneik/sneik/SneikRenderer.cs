@@ -16,6 +16,7 @@ namespace sneik
         private IUseCaseFactory _useCaseFactory;
         private Texture2D _gameBoardCellTexture;
         private Texture2D _gameBoardObstacleTexture;
+        private Texture2D _gameBoardFoodPalletTexture;
         private Texture2D _sneikTexture;
 
 
@@ -26,6 +27,7 @@ namespace sneik
             Color gameBoardCellColor = _sneikGame.round.Board.BoardCells[0, 0].Color;
             Color gameBoardObstacleColor = Color.TEA_GREEN;
             Color sneikColor = Color.PINK;
+            Color gameBoardFoodPallet = Color.YELLOW;
 
             for (int i = 0; i < _sneikGame.round.Board.BoardObstacles.GetLength(0); i++)
             {
@@ -37,14 +39,27 @@ namespace sneik
                     }
                 }
             }
+            for (int i = 0; i < _sneikGame.round.Board.BoardFood.GetLength(0); i++)
+            {
+                for (int j = 0; j < _sneikGame.round.Board.BoardFood.GetLength(1); j++)
+                {
+                    if (_sneikGame.round.Board.BoardFood[i, j] != null)
+                    {
+                        gameBoardFoodPallet = _sneikGame.round.Board.BoardFood[i, j].Cell.Color;
+                    }
+                }
+            }
+
 
             _gameBoardCellTexture = new Texture2D(_graphicsDevice, CellSize.Width, CellSize.Height);
             _gameBoardObstacleTexture = new Texture2D(_graphicsDevice, CellSize.Width, CellSize.Height);
+            _gameBoardFoodPalletTexture = new Texture2D(_graphicsDevice, CellSize.Width, CellSize.Height);
             _sneikTexture = new Texture2D(_graphicsDevice, CellSize.Width, CellSize.Height);
 
             Microsoft.Xna.Framework.Color[] cellTextureColor = new Microsoft.Xna.Framework.Color[CellSize.Width * CellSize.Height];
             Microsoft.Xna.Framework.Color[] obstacleTextureColor = new Microsoft.Xna.Framework.Color[CellSize.Width * CellSize.Height];
             Microsoft.Xna.Framework.Color[] sneikTextureColor = new Microsoft.Xna.Framework.Color[CellSize.Width * CellSize.Height];
+            Microsoft.Xna.Framework.Color[] foodPalletTextureColor = new Microsoft.Xna.Framework.Color[CellSize.Width * CellSize.Height];
 
             for (int i = 0; i < cellTextureColor.Length; i++)
             {
@@ -63,6 +78,12 @@ namespace sneik
                 sneikTextureColor[i] = Tools.ModelsColorToFrameworkColor(sneikColor);
             }
             _sneikTexture.SetData(sneikTextureColor);
+
+            for(int i = 0; i < foodPalletTextureColor.Length; i++)
+            {
+                foodPalletTextureColor[i] = Tools.ModelsColorToFrameworkColor(gameBoardFoodPallet);
+            }
+            _gameBoardFoodPalletTexture.SetData(foodPalletTextureColor);
 
         }
         private void onGameUpdate(object sender, EventArgs args)
@@ -105,6 +126,13 @@ namespace sneik
                     if (boardObstacle != null)
                     {
                         _spriteBatch.Draw(_gameBoardObstacleTexture, Tools.PointToVector2(boardObstacle.Cell.Position), Tools.ModelsColorToFrameworkColor(boardObstacle.Cell.Color)); //draw obstacles
+                    }
+                }
+                foreach (var boardFood in _sneikGame.round.Board.BoardFood)
+                {
+                    if (boardFood != null)
+                    {
+                        _spriteBatch.Draw(_gameBoardFoodPalletTexture, Tools.PointToVector2(boardFood.Cell.Position), Tools.ModelsColorToFrameworkColor(boardFood.Cell.Color)); //draw food
                     }
                 }
 

@@ -46,7 +46,7 @@ namespace Logic.Systems
             if (_collidables != null)
                 _collidables.Remove(collidable);
         }
-        public void AddObstacles(ICollidable[,] obstacles)
+        public void AddCollidable(ICollidable[,] obstacles)
         {
             if (_collidables == null)
             {

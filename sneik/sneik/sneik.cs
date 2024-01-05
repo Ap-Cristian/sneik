@@ -12,7 +12,7 @@ namespace sneik
         private SpriteBatch _spriteBatch;
         private State _currentState;
         private State _nextState;
-
+        private SpriteFont _scoreFont;
         public sneik()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -35,7 +35,6 @@ namespace sneik
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
             _currentState = new MenuState(this, GraphicsDevice, Content);
             _currentState.LoadContent();
             _nextState = null;

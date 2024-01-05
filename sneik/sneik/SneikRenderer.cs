@@ -5,6 +5,8 @@ using System;
 using Logic.Factories;
 using Logic.Interfaces;
 using sneik.Interfaces;
+using System.Net.Mime;
+using Microsoft.Xna.Framework.Content;
 
 namespace sneik
 {
@@ -18,10 +20,12 @@ namespace sneik
         private Texture2D _gameBoardObstacleTexture;
         private Texture2D _gameBoardFoodPalletTexture;
         private Texture2D _sneikTexture;
-
+        private SpriteFont _scoreFont;
 
         private void initTextures()
         {
+
+            
             Size CellSize = _sneikGame.round.Board.BoardCells[0, 0].Size;
 
             Color gameBoardCellColor = _sneikGame.round.Board.BoardCells[0, 0].Color;
@@ -92,7 +96,7 @@ namespace sneik
             //currently unused, maybe usefull down the line
             //could be used for input handling?
         }
-        public SneikRenderer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, IUseCaseFactory useCaseFactory)
+        public SneikRenderer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, IUseCaseFactory useCaseFactory, ContentManager _content)
         {
             _useCaseFactory = useCaseFactory;
             _spriteBatch = spriteBatch;
@@ -100,7 +104,7 @@ namespace sneik
             _sneikGame.Execute();
             _sneikGame.DrawUpdateDelegate += onGameUpdate;
             _graphicsDevice = graphicsDevice;
-
+            _scoreFont = _content.Load<SpriteFont>("Fonts/ScoreFont");
             initTextures();
         }
 
@@ -155,6 +159,8 @@ namespace sneik
                         _spriteBatch.Draw(_gameBoardObstacleTexture, Tools.PointToVector2(SnakeCell.Cell.Position + point), Tools.ModelsColorToFrameworkColor(SnakeCell.Cell.Color)); //draw snake
                     }
                 }
+
+                _spriteBatch.DrawString(_scoreFont, "Score " + _sneikGame.round.GetScore(), Tools.PointToVector2(new Point(10,10)), Tools.ModelsColorToFrameworkColor(Color.GREEN));
                 _spriteBatch.End();
             }
             

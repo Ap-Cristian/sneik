@@ -39,6 +39,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Difficulties\DifficultyEasy.cs" />
+    <Compile Include="Difficulties\DifficultyHard.cs" />
+    <Compile Include="Difficulties\DifficultyMedium.cs" />
+    <Compile Include="Difficulties\DifficultyNightmare.cs" />
+    <Compile Include="Difficulties\DifficultyVeryHard.cs" />
     <Compile Include="Factories\CollidableFactory.cs" />
     <Compile Include="Delegates\InputEventHandler.cs" />
     <Compile Include="Enums\Keys.cs" />
@@ -46,6 +51,7 @@
     <Compile Include="Helpers\HighscoreReader.cs" />
     <Compile Include="Interfaces\ICollidableFactory.cs" />
     <Compile Include="Interfaces\IHighscoreReader.cs" />
+    <Compile Include="Interfaces\IStrategy.cs" />
     <Compile Include="Interfaces\IUseCaseFactory.cs" />
     <Compile Include="Interfaces\ICollidable.cs" />
     <Compile Include="Enums\Colors.cs" />

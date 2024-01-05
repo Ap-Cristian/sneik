@@ -24,7 +24,6 @@ namespace Logic.Models
             {
                 this.round.Update();
                 this.DrawUpdateDelegate?.Invoke(this, EventArgs.Empty);
-                Thread.Sleep(300);
             }
 
         }

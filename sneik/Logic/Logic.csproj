@@ -44,6 +44,7 @@
     <Compile Include="Difficulties\DifficultyMedium.cs" />
     <Compile Include="Difficulties\DifficultyNightmare.cs" />
     <Compile Include="Difficulties\DifficultyVeryHard.cs" />
+    <Compile Include="Enums\SnakeSpeed.cs" />
     <Compile Include="Factories\CollidableFactory.cs" />
     <Compile Include="Delegates\InputEventHandler.cs" />
     <Compile Include="Enums\Keys.cs" />

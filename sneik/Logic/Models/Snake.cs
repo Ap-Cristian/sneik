@@ -32,7 +32,6 @@ namespace Logic.Models
         public Snake(int size, GameBoard gameBoard, ICollidableFactory collidableFactory, int movementSpeed = SNAKE_SPEED_DEFAULT)
         {
             _currentSize = size;
-
             _collidableFactory = collidableFactory;
 
             _movementSpeed = movementSpeed;
@@ -40,6 +39,7 @@ namespace Logic.Models
 
             _snakeBodyPartsBoardIdx = new List<Point>();
             SnakeBodyPartsScreenSpace = new List<ICollidable>();
+            _collisionSystem = CollisionSystem.Instance;
 
             for (int i = 0; i < _currentSize; i++)
             {
@@ -49,13 +49,12 @@ namespace Logic.Models
                 _snakeBodyPartsBoardIdx.Add(cellCoordsBoardIdx);
                 SnakeBodyPartsScreenSpace.Add(new SnakePart(cellCoordsScreenSpace, _snakeCellSize, Color.RED));
             }
+            _collisionSystem.AddCollidable(SnakeBodyPartsScreenSpace);
+            
             _headPosBoardIdx = _snakeBodyPartsBoardIdx.First();
-            _headPosScreenSpace =SnakeBodyPartsScreenSpace.First().Cell.Position;
-            _collisionSystem = CollisionSystem.Instance;
+            _headPosScreenSpace = SnakeBodyPartsScreenSpace.First().Cell.Position;
 
             HeadCollidable = SnakeBodyPartsScreenSpace.First();
-            _collisionSystem.AddCollidable(HeadCollidable);
-
         }
         public Snake()
         {
@@ -168,8 +167,7 @@ namespace Logic.Models
                         {
                             newSnakePartLocation.Y = lastCellPos.Y + 1;
                         }
-                        _snakeBodyPartsBoardIdx.Add(newSnakePartLocation);
-                        SnakeBodyPartsScreenSpace.Add(_collidableFactory.Create<SnakePart>(_board.BoardCells[newSnakePartLocation.X, newSnakePartLocation.Y].Position, _snakeCellSize, Color.RED));
+
                         break;
                     case Direction.UP:
                         if (lastCellPos.Y - 1 < 0)
@@ -180,9 +178,6 @@ namespace Logic.Models
                         {
                             newSnakePartLocation.Y = lastCellPos.Y - 1;
                         }
-                        _snakeBodyPartsBoardIdx.Add(newSnakePartLocation);
-
-                        SnakeBodyPartsScreenSpace.Add(_collidableFactory.Create<SnakePart>(_board.BoardCells[newSnakePartLocation.X, newSnakePartLocation.Y].Position, _snakeCellSize, Color.RED));
                         break;
                     case Direction.LEFT:
                         if (lastCellPos.X - 1 < 0)
@@ -193,8 +188,6 @@ namespace Logic.Models
                         {
                             newSnakePartLocation.X = lastCellPos.X - 1;
                         }
-                        _snakeBodyPartsBoardIdx.Add(newSnakePartLocation);
-                        SnakeBodyPartsScreenSpace.Add(_collidableFactory.Create<SnakePart>(_board.BoardCells[newSnakePartLocation.X, newSnakePartLocation.Y].Position, _snakeCellSize, Color.RED));
                         break;
                     case Direction.RIGHT:
                         if (lastCellPos.X + 1 > _board.Size.Width)
@@ -205,12 +198,14 @@ namespace Logic.Models
                         {
                             newSnakePartLocation.X = lastCellPos.X + 1;
                         }
-                        _snakeBodyPartsBoardIdx.Add(newSnakePartLocation);
-                        SnakeBodyPartsScreenSpace.Add(_collidableFactory.Create<SnakePart>(_board.BoardCells[newSnakePartLocation.X, newSnakePartLocation.Y].Position, _snakeCellSize, Color.RED));
                         break;
-
-
                 }
+
+                _snakeBodyPartsBoardIdx.Add(newSnakePartLocation);
+                ICollidable newBodyPartCollidable = _collidableFactory.Create<SnakePart>(_board.BoardCells[newSnakePartLocation.X, newSnakePartLocation.Y].Position, _snakeCellSize, Color.RED);
+                SnakeBodyPartsScreenSpace.Add(newBodyPartCollidable);
+
+                _collisionSystem.AddCollidable(newBodyPartCollidable);
 
             }
 
@@ -276,12 +271,13 @@ namespace Logic.Models
         private void MoveScreenSpace()
         {
             int idx = 0;
+            HeadCollidable.Cell.Position = SnakeBodyPartsScreenSpace.First().Cell.Position;
+
             foreach (var boardIdx in _snakeBodyPartsBoardIdx)
             {
                 SnakeBodyPartsScreenSpace[idx].Cell.Position = _board.BoardCells[boardIdx.X, boardIdx.Y].Position;
                 idx++;
             }
-            HeadCollidable.Cell.Position = SnakeBodyPartsScreenSpace.First().Cell.Position;
         }
 
         public void Move()

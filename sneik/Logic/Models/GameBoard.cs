@@ -4,6 +4,7 @@ using Logic.Systems;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Logic.Models
 {
@@ -42,6 +43,14 @@ namespace Logic.Models
         };
         public Difficulty Difficulty { get; set; }
         private CollisionSystem _collisionSystem;
+
+        private void onFoodPalletCollision(string collidedWithType)
+        {
+            Food.First().CollisionHandler -= onFoodPalletCollision;
+            Food.Remove(Food.First());
+            SpawnFoodPallet();
+        }
+
         private void SpawnFoodPallet()
         {
             var rand = new Random();
@@ -55,7 +64,7 @@ namespace Logic.Models
 
                 Point currentPos = BoardCells[randX, randY].Position;
                 ICollidable currentFood = _collidableFactory.Create<FoodPallet>(currentPos, _cellSize, Color.YELLOW);
-
+                
                 bool collidingWithExisting = false;
 
                 for (int j = 0; j < Food.Count; j++)
@@ -95,6 +104,7 @@ namespace Logic.Models
                     }
                 }
                 Food.Add(currentFood);
+                currentFood.CollisionHandler += onFoodPalletCollision;
                 BoardFood[randX, randY] = currentFood;
             }
             _collisionSystem.AddCollidable(BoardFood);

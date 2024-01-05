@@ -1,18 +1,26 @@
 
+using Logic.Factories;
 using Logic.Interfaces;
 using Logic.Models;
+using Moq;
 namespace sneikTest.ClassesTest
 {
     [TestClass]
     public class SnakeTest
     {
-        GameBoard _testGameBoard = new GameBoard(Difficulty.EASY);
+        ICollidableFactory _collidableFactory;
+        GameBoard _testGameBoard;
+        public SnakeTest()
+        {
+            _collidableFactory = new CollidableFactory();
+            _testGameBoard = new GameBoard(Difficulty.EASY, _collidableFactory);
+        }
 
 
         [TestMethod]
         public void TestSnakeMove()
         {
-            Snake snake = new Snake(3, _testGameBoard);
+            Snake snake = new Snake(3, _testGameBoard, _collidableFactory);
 
             snake.Move();
             switch (snake.GetDirection())
@@ -35,11 +43,12 @@ namespace sneikTest.ClassesTest
                     break;
             }
         }
+
         [TestMethod]
         public void TestSnakeIncreaseSize()
         {
             int snakeSize = 3;
-            Snake snake = new Snake(snakeSize, _testGameBoard);
+            Snake snake = new Snake(snakeSize, _testGameBoard, _collidableFactory);
            
             snake.IncreaseSize(2);
 
@@ -51,7 +60,7 @@ namespace sneikTest.ClassesTest
         public void TestSnakeDecreaseSize()
         {
             int snakeSize = 20;
-            Snake snake = new Snake(snakeSize, _testGameBoard);
+            Snake snake = new Snake(snakeSize, _testGameBoard, _collidableFactory);
 
             snake.DecreaseSize(2);
 

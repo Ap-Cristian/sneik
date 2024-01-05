@@ -1,4 +1,6 @@
-﻿using Logic.Systems;
+﻿using Logic.Factories;
+using Logic.Interfaces;
+using Logic.Systems;
 using System.Diagnostics;
 
 namespace Logic.Models
@@ -8,9 +10,12 @@ namespace Logic.Models
         //this will have to be set from snakeGame once the user selects a difficulty
         private Difficulty _difficulty = Difficulty.EASY;
 
+
         private static Round instance;
         private const int _snakeInitialSize = 3;
         private Point _gameBoardCenterPoint;
+
+        private ICollidableFactory _collidableFactory;
         public GameBoard Board { get; set; }
         public Snake Snake { get; set; }
 
@@ -30,12 +35,14 @@ namespace Logic.Models
                     break;
             }
         }
-        private Round()
+
+        private Round(ICollidableFactory collidableFactory)
         {
             _collisionSystem = CollisionSystem.Instance;
-            Board = new GameBoard(_difficulty);
+            _collidableFactory = collidableFactory;
+            Board = new GameBoard(_difficulty, _collidableFactory);
             _gameBoardCenterPoint = new Point(Board.Size.Width / 2, Board.Size.Height / 2);
-            Snake = new Snake(_snakeInitialSize, Board);
+            Snake = new Snake(_snakeInitialSize, Board, _collidableFactory);
 
             //this should not happen here
             Snake.HeadCollidable.CollisionHandler += onSnakeCollision;
@@ -57,7 +64,7 @@ namespace Logic.Models
             {
                 if (instance == null)
                 {
-                    instance = new Round();
+                    instance = new Round(new CollidableFactory());
                 }
                 return instance;
 

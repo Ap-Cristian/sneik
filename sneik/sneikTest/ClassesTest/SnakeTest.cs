@@ -1,4 +1,5 @@
 
+using Logic.Interfaces;
 using Logic.Models;
 namespace sneikTest.ClassesTest
 {
@@ -7,16 +8,7 @@ namespace sneikTest.ClassesTest
     {
         GameBoard _testGameBoard = new GameBoard(Difficulty.EASY);
 
-        [TestMethod]
-        public void TestSnakeIncreaseSize()
-        {
-            Snake snake = new Snake();
 
-            snake.IncreaseSize(20);
-
-            Assert.AreEqual(20, snake.GetSize());
-
-        }
         [TestMethod]
         public void TestSnakeMove()
         {
@@ -42,6 +34,29 @@ namespace sneikTest.ClassesTest
                     Assert.AreEqual(0, snake.GetHeadPosBoardSpace().Y);
                     break;
             }
+        }
+        [TestMethod]
+        public void TestSnakeIncreaseSize()
+        {
+            int snakeSize = 3;
+            Snake snake = new Snake(snakeSize, _testGameBoard);
+           
+            snake.IncreaseSize(2);
+
+            Assert.AreEqual(snakeSize + 2, snake.GetSize());
+            Assert.AreEqual(snakeSize + 2, snake.SnakeBodyPartsScreenSpace.Count);  
+        }
+
+        [TestMethod]
+        public void TestSnakeDecreaseSize()
+        {
+            int snakeSize = 20;
+            Snake snake = new Snake(snakeSize, _testGameBoard);
+
+            snake.DecreaseSize(2);
+
+            Assert.AreEqual(snakeSize - 2, snake.GetSize());
+            Assert.AreEqual(snakeSize - 2, snake.SnakeBodyPartsScreenSpace.Count);
         }
     }
 }

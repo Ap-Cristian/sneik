@@ -39,10 +39,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\CollidableFactory.cs" />
     <Compile Include="Delegates\InputEventHandler.cs" />
     <Compile Include="Enums\Keys.cs" />
     <Compile Include="Factories\UseCaseFactory.cs" />
     <Compile Include="Helpers\HighscoreReader.cs" />
+    <Compile Include="Interfaces\ICollidableFactory.cs" />
     <Compile Include="Interfaces\IHighscoreReader.cs" />
     <Compile Include="Interfaces\IUseCaseFactory.cs" />
     <Compile Include="Interfaces\ICollidable.cs" />

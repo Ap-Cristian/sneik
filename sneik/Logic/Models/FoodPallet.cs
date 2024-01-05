@@ -54,8 +54,8 @@ namespace Logic.Models
         public FoodPallet(Point position, Size size, Color color = Color.AIR_SUPERIORITY_BLUE)
         {
             Cell = new Cell(position, size, color);
-
         }
+
         public FoodPallet(Cell cell)
         {
             Cell = cell;

@@ -31,8 +31,12 @@ namespace Logic.Models
                     EndRound();
                     Debug.WriteLine("Ending round...");
                     break;
-                    case "FoodPallet":
-                    Debug.WriteLine("Snake ate food pallet");
+                case "FoodPallet":
+                    this.Snake.IncreaseSize(1);
+                    break;
+                case "SnakePart":
+                    Debug.WriteLine("Ending round...");
+                    EndRound();
                     break;
                 default:
                     break;
@@ -47,7 +51,6 @@ namespace Logic.Models
             _gameBoardCenterPoint = new Point(Board.Size.Width / 2, Board.Size.Height / 2);
             Snake = new Snake(_snakeInitialSize, Board, _collidableFactory);
 
-            //this should not happen here
             Snake.HeadCollidable.CollisionHandler += onSnakeCollision;
         }
 

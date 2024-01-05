@@ -5,6 +5,6 @@ namespace Logic.Interfaces
 {
     public interface IStrategy
     {
-        Tuple<Size, int> SetDifficulty();
+        Tuple<Size, int, int, int> SetDifficulty();
     }
 }

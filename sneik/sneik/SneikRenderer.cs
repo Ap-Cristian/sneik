@@ -12,7 +12,7 @@ namespace sneik
 {
     public class SneikRenderer : IUpdateable
     {
-        private SneikGameUseCase _sneikGame;
+        public SneikGameUseCase _sneikGame;
         private SpriteBatch _spriteBatch;
         private GraphicsDevice _graphicsDevice;
         private IUseCaseFactory _useCaseFactory;
@@ -21,7 +21,7 @@ namespace sneik
         private Texture2D _gameBoardFoodPalletTexture;
         private Texture2D _sneikTexture;
         private SpriteFont _scoreFont;
-
+        public bool stopGame = false;
         private void initTextures()
         {
 
@@ -112,6 +112,7 @@ namespace sneik
         {
             _sneikGame.DrawUpdateDelegate -= onGameUpdate;
             _sneikGame.StopGameLoop();
+
         }
         public void Update()
         {

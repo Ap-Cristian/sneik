@@ -34,18 +34,25 @@ namespace sneik.States
 
         public override void PostUpdate(GameTime gameTime)
         {
-            
+
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (_sneikRenderer._sneikGame.round.stop)
+            {
+                _sneikRenderer.StopGame();
+                _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
+
+
+            }
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 _sneikRenderer.StopGame();
                 _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
             }
 
-        _inputHandler.Update();
+            _inputHandler.Update();
 
         }
     }

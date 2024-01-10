@@ -164,45 +164,15 @@ namespace Logic.Models
             }
             _collisionSystem.AddCollidable(BoardObstacles);
         }
-        public GameBoard(Difficulty difficulty, ICollidableFactory collidableFactory)
+        public GameBoard(Tuple<Size,int,int,int> settings, ICollidableFactory collidableFactory)
         {
-            Difficulty = difficulty;
             _collisionSystem = CollisionSystem.Instance;
-            // TODO: generate obstacles randomly
-            switch (Difficulty)
-            {
-                case Difficulty.EASY:
-                    Size = _gameboardSizes[0];
-                    _obstacleCount = (int)ObstacleCoef.EASY;
-                    CellSize = new Size((int)CellSizeCoef.EASY, (int)CellSizeCoef.EASY);
-                    _cellPadding = 5;
-                    break;
-                case Difficulty.MEDIUM:
-                    Size = _gameboardSizes[1];
-                    _obstacleCount = (int)ObstacleCoef.MEDIUM;
-                    CellSize = new Size((int)CellSizeCoef.MEDIUM, (int)CellSizeCoef.MEDIUM);
-                    _cellPadding = 5;
-                    break;
-                case Difficulty.HARD:
-                    Size = _gameboardSizes[2];
-                    _obstacleCount = (int)ObstacleCoef.HARD;
-                    CellSize = new Size((int)CellSizeCoef.HARD, (int)CellSizeCoef.HARD);
-                    _cellPadding = 3;
 
-                    break;
-                case Difficulty.VERY_HARD:
-                    Size = _gameboardSizes[3];
-                    _obstacleCount = (int)ObstacleCoef.VERY_HARD;
-                    CellSize = new Size((int)CellSizeCoef.VERY_HARD, (int)CellSizeCoef.VERY_HARD);
-                    _cellPadding = 2;
-                    break;
-                case Difficulty.NIGHTMARE:
-                    Size = _gameboardSizes[4];
-                    _obstacleCount = (int)ObstacleCoef.NIGHTMARE;
-                    CellSize = new Size((int)CellSizeCoef.NIGHTMARE, (int)CellSizeCoef.NIGHTMARE);
-                    _cellPadding = 2;
-                    break;
-            }
+            Size = settings.Item1;
+            _obstacleCount = settings.Item2;
+            CellSize = new Size(settings.Item3, settings.Item3);
+            _cellPadding = settings.Item4;
+            
             _foodCount = 1;
             _collidableFactory = collidableFactory;
 

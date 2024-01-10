@@ -6,11 +6,11 @@ namespace Logic.Difficulties
 {
     public class DifficultyVeryHard : IStrategy
     {
-        public Tuple<Size, int, int, int> SetDifficulty()
+        public Tuple<Size, int, int, int,int> SetDifficulty()
         {
             Size size = new Size(70, 70);
 
-            return new Tuple<Size, int, int, int>(size, 80, 5, 200);
+            return new Tuple<Size, int, int, int,int>(size, 80, 5, 200,2);
         }
     }
 }

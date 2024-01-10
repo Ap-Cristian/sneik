@@ -40,16 +40,16 @@ namespace Logic.Models
             switch (firstKey)
             {
                 case Keys.Left:
-                    round.Snake.SetDirection(Direction.LEFT);
+                    round?.Snake.SetDirection(Direction.LEFT);
                     break;
                 case Keys.Right:
-                    round.Snake.SetDirection(Direction.RIGHT);
+                    round?.Snake.SetDirection(Direction.RIGHT);
                     break;
                 case Keys.Up:
-                    round.Snake.SetDirection(Direction.UP);
+                    round?.Snake.SetDirection(Direction.UP);
                     break;
                 case Keys.Down:
-                    round.Snake.SetDirection(Direction.DOWN);
+                    round?.Snake.SetDirection(Direction.DOWN);
                     break;
                 default:
                     break;

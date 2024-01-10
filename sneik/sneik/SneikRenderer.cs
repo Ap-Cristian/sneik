@@ -116,18 +116,18 @@ namespace sneik
         }
         public void Update()
         {
-            if (_sneikGame.round != null) 
+            if (_sneikGame.round != null)
             {
                 //apparently monogame doesnt like when you dont draw from the UI thread(draw from sneik.cs), which is understanable.
                 _spriteBatch.Begin();
 
-                
+
                 int width = _graphicsDevice.Viewport.Width;
                 int height = _graphicsDevice.Viewport.Height;
                 Point point;
 
-                int paddingWidth = width/4 - (_sneikGame.round.Board.Size.Width * _sneikGame.round.Board.CellSize.Width)/4;
-                int paddingHeight = height/4 - (_sneikGame.round.Board.Size.Height * _sneikGame.round.Board.CellSize.Height)/4;
+                int paddingWidth = width / 4 - (_sneikGame.round.Board.Size.Width * _sneikGame.round.Board.CellSize.Width) / 4;
+                int paddingHeight = height / 4 - (_sneikGame.round.Board.Size.Height * _sneikGame.round.Board.CellSize.Height) / 4;
 
                 point = new Point(paddingWidth, paddingHeight);
 
@@ -161,7 +161,7 @@ namespace sneik
                     }
                 }
 
-                _spriteBatch.DrawString(_scoreFont, "Score " + _sneikGame.round.GetScore(), Tools.PointToVector2(new Point(10,10)), Tools.ModelsColorToFrameworkColor(Color.GREEN));
+                _spriteBatch.DrawString(_scoreFont, "Score " + _sneikGame.round.GetScore(), Tools.PointToVector2(new Point(10, 10)), Tools.ModelsColorToFrameworkColor(Color.GREEN));
                 _spriteBatch.End();
             }
             

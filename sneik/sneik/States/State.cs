@@ -29,7 +29,6 @@ namespace sneik.States
         public State(sneik game, GraphicsDevice graphicsDevice, ContentManager content)
         {
             _game = game;
-
             _graphicsDevice = graphicsDevice;
 
             _content = content;

@@ -59,7 +59,7 @@ namespace sneikTest.ClassesTest
         [TestMethod]
         public void TestSnakeDecreaseSize()
         {
-            int snakeSize = 20;
+            int snakeSize =4;
             Snake snake = new Snake(snakeSize, _testGameBoard, _collidableFactory);
 
             snake.DecreaseSize(2);

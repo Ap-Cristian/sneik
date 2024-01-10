@@ -1,8 +1,10 @@
-﻿using Logic.Enums;
+﻿using System;
+using Logic.Enums;
 using Logic.Factories;
 using Logic.Interfaces;
 using Logic.Systems;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 
 namespace Logic.Models
@@ -10,10 +12,9 @@ namespace Logic.Models
     sealed public class Round
     {
         //this will have to be set from snakeGame once the user selects a difficulty
-        private Difficulty _difficulty = Difficulty.NIGHTMARE;
-
-        private SnakeSpeed _snakeSpeed;
-
+        private StrategyFactory _strategyFactory = new StrategyFactory();
+        private int _snakeSpeed;
+        public bool stop;
         private static Round instance;
         private const int _snakeInitialSize = 3;
         private Point _gameBoardCenterPoint;
@@ -26,13 +27,14 @@ namespace Logic.Models
 
         private void onSnakeCollision(string collidedObstacleType)
         {
-            Debug.WriteLine("Snake collided with object type: " +  "["+ collidedObstacleType +"]");
+            Debug.WriteLine("Snake collided with object type: " + "[" + collidedObstacleType + "]");
             //check if collided with obstacle, if true end round
             switch (collidedObstacleType)
             {
                 case "Obstacle":
-                    EndRound();
                     Debug.WriteLine("Ending round...");
+                    EndRound();
+
                     break;
                 case "FoodPallet":
                     this.Snake.IncreaseSize(1);
@@ -48,43 +50,38 @@ namespace Logic.Models
 
         private Round(ICollidableFactory collidableFactory)
         {
+            stop = false;
             _collisionSystem = CollisionSystem.Instance;
             _collidableFactory = collidableFactory;
-            Board = new GameBoard(_difficulty, _collidableFactory);
+            var strategyPath = File.ReadAllText("../../../../Logic/Helpers/Difficulty.txt");
+            var strategy = _strategyFactory.Create(strategyPath);
+            var settings = strategy.SetDifficulty();
+            Board = new GameBoard(new Tuple<Size, int, int, int>(settings.Item1, settings.Item2, settings.Item3, settings.Item5), _collidableFactory);
             _gameBoardCenterPoint = new Point(Board.Size.Width / 2, Board.Size.Height / 2);
             Snake = new Snake(_snakeInitialSize, Board, _collidableFactory);
 
             Snake.HeadCollidable.CollisionHandler += onSnakeCollision;
 
-            switch (_difficulty)
-            {
-                case Difficulty.EASY:
-                    this._snakeSpeed = SnakeSpeed.EASY;
-                    break;
-                case Difficulty.MEDIUM:
-                    this._snakeSpeed = SnakeSpeed.MEDIUM;
-                    break;
-                case Difficulty.HARD:
-                    this._snakeSpeed = SnakeSpeed.HARD;
-                    break;
-                case Difficulty.VERY_HARD:
-                    this._snakeSpeed = SnakeSpeed.VERY_HARD;
-                    break;
-                case Difficulty.NIGHTMARE:
-                    this._snakeSpeed = SnakeSpeed.NIGHTMARE;
-                    break;
-            }
+
+            _snakeSpeed = settings.Item4;
+
         }
 
         public void Update()
         {
             Snake.Move();
             _collisionSystem.Update();
-            Thread.Sleep((int)this._snakeSpeed);
+            Thread.Sleep(_snakeSpeed);
 
         }
         private void EndRound()
         {
+            var score = GetScore();
+            using (StreamWriter writer = File.AppendText("../../../../Logic/Helpers/Scores.txt"))
+            {
+                writer.WriteLine(score);
+            }
+            stop = true;
             instance = null;
             //Environment.Exit(0);
         }

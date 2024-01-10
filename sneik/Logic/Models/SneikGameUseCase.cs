@@ -24,6 +24,7 @@ namespace Logic.Models
             {
                 this.round.Update();
                 this.DrawUpdateDelegate?.Invoke(this, EventArgs.Empty);
+               
             }
 
         }
@@ -64,6 +65,7 @@ namespace Logic.Models
         {
             round = null;
             _gameThread.Join();
+            instance = null;
         }
 
 

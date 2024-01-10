@@ -12,6 +12,7 @@ namespace Logic.Systems
         private CollisionSystem() { }
         private List<ICollidable> _collidables = null;
         private static CollisionSystem _instance;
+        private bool shouldPurge = false;
         public static CollisionSystem Instance
         {
             get
@@ -22,6 +23,14 @@ namespace Logic.Systems
                 }
                 return _instance;
             }
+        }
+        public int GetNumberOfCollidablesInSystem()
+        {
+            return _collidables.Count;
+        }
+        public void PurgeCollidables()
+        {
+            shouldPurge = true;
         }
         public void SetCollidables(List<ICollidable> collidables)
         {
@@ -75,10 +84,17 @@ namespace Logic.Systems
                     {
                         _collidables[i].CheckCollision(_collidables[j]);
                         _collidables[j].CheckCollision(_collidables[i]);
+                        
+                        if (shouldPurge)
+                        {
+                            _collidables.Clear();
+                            shouldPurge = false;
+                            break;
+                        }
                     }
                 }
             }
-            else
+            else if (_collidables == null)
             {
                 throw new Exception("[ERR! COLL_SYS] Collidables list is undefined!");
             }
